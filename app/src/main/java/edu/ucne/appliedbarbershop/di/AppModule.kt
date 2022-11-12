@@ -19,7 +19,7 @@ object AppModule {
         return Room.databaseBuilder(
             context,
             AppDataBase::class.java,
-            "DATABASE_NAME"
+            "AppliedBarberShop_db"
         ).fallbackToDestructiveMigration().build()
     }
 }
