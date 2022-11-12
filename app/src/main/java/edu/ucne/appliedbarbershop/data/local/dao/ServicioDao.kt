@@ -7,7 +7,7 @@ import androidx.room.Query
 import edu.ucne.appliedbarbershop.data.local.models.Servicio
 import kotlinx.coroutines.flow.Flow
 
-interface SevicioDao {
+interface ServicioDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(servicio: Servicio)
 
