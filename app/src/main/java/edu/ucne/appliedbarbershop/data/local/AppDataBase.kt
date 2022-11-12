@@ -1,6 +1,7 @@
 package edu.ucne.appliedbarbershop.data.local
 
 import androidx.room.Database
+import androidx.room.RoomDatabase
 import edu.ucne.appliedbarbershop.data.local.dao.BarberoDao
 import edu.ucne.appliedbarbershop.data.local.dao.CitaDao
 import edu.ucne.appliedbarbershop.data.local.dao.PerfilDao
@@ -21,7 +22,7 @@ import edu.ucne.appliedbarbershop.data.local.models.Cita
     exportSchema = false
 )
 
-abstract class AppDataBase {
+abstract class AppDataBase : RoomDatabase() {
     abstract val barberoDao: BarberoDao
     abstract val citaDao: CitaDao
     abstract val perfilDao: PerfilDao
