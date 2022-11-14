@@ -1,12 +1,10 @@
 package edu.ucne.appliedbarbershop.data.local.dao
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import edu.ucne.appliedbarbershop.data.local.models.Perfil
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface PerfilDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(perfil: Perfil)
