@@ -1,10 +1,6 @@
 package edu.ucne.appliedbarbershop.data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import edu.ucne.appliedbarbershop.data.local.models.Servicio
 import kotlinx.coroutines.flow.Flow
 
