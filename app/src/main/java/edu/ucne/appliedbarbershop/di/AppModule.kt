@@ -2,12 +2,20 @@ package edu.ucne.appliedbarbershop.di
 
 import android.content.Context
 import androidx.room.Room
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import edu.ucne.appliedbarbershop.data.local.AppDataBase
+import edu.ucne.appliedbarbershop.data.remote.api_dao.BarberoApi
+import edu.ucne.appliedbarbershop.data.remote.api_dao.CitaApi
+import edu.ucne.appliedbarbershop.data.remote.api_dao.PerfilApi
+import edu.ucne.appliedbarbershop.data.remote.api_dao.ServicioApi
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -21,5 +29,54 @@ object AppModule {
             AppDataBase::class.java,
             "AppliedBarberShop_db"
         ).fallbackToDestructiveMigration().build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideMoshi(): Moshi {
+        return Moshi
+            .Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun providesBarberoApi(moshi: Moshi): BarberoApi {
+        return Retrofit.Builder()
+            .baseUrl("https://apibarbershop.azurewebsites.net")
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(BarberoApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesCitaApi(moshi: Moshi): CitaApi {
+        return Retrofit.Builder()
+            .baseUrl("https://apibarbershop.azurewebsites.net")
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(CitaApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesPerfilApi(moshi: Moshi): PerfilApi {
+        return Retrofit.Builder()
+            .baseUrl("https://apibarbershop.azurewebsites.net")
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(PerfilApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesServicioApi(moshi: Moshi): ServicioApi {
+        return Retrofit.Builder()
+            .baseUrl("https://apibarbershop.azurewebsites.net")
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+            .create(ServicioApi::class.java)
     }
 }
