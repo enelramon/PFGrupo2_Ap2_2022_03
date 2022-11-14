@@ -86,6 +86,10 @@ dependencies {
     //viewmodel
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
 
+    //Para Imagen
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
+
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
