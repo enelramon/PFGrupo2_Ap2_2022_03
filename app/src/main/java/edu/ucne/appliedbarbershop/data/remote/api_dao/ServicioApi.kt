@@ -6,18 +6,18 @@ import retrofit2.http.*
 
 interface ServicioApi {
 
-    @GET("")
+    @GET("/api/Servicios")
     suspend fun getAll(): Response<List<ServicioDto>>
 
-    @GET("{id}")
+    @GET("/api/Servicios/{id}")
     suspend fun getById(@Path("id") id: String): Response<ServicioDto>
 
-    @POST("")
+    @POST("/api/Servicios")
     suspend fun insert(@Body servicio: ServicioDto): Response<ServicioDto>
 
-    @DELETE("{id}")
+    @DELETE("/api/Servicios/{id}")
     suspend fun delete(@Path("id") id: String): Response<ServicioDto>
 
-    @PUT("{id}")
+    @PUT("/api/Servicios/{id}")
     suspend fun update(@Path("id") id: String, @Body servicio: ServicioDto): Response<ServicioDto>
 }

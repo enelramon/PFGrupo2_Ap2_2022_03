@@ -6,18 +6,18 @@ import retrofit2.http.*
 
 interface CitaApi {
 
-    @GET("")
+    @GET("/api/Citas")
     suspend fun getAll(): Response<List<CitaDto>>
 
-    @GET("{id}")
+    @GET("/api/Citas/{id}")
     suspend fun getById(@Path("id") id: String): Response<CitaDto>
 
-    @POST("")
+    @POST("/api/Citas")
     suspend fun insert(@Body cita: CitaDto): Response<CitaDto>
 
-    @DELETE("{id}")
+    @DELETE("/api/Citas/{id}")
     suspend fun delete(@Path("id") id: String): Response<CitaDto>
 
-    @PUT("{id}")
+    @PUT("/api/Citas/{id}")
     suspend fun update(@Path("id") id: String, @Body cita: CitaDto): Response<CitaDto>
 }
