@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Intro() {
     Scaffold() {

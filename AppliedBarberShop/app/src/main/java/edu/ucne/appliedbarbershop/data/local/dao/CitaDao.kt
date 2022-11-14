@@ -1,5 +1,6 @@
 package edu.ucne.appliedbarbershop.data.local.dao
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -7,6 +8,7 @@ import androidx.room.Query
 import edu.ucne.appliedbarbershop.data.local.models.Cita
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface CitaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(cita: Cita)

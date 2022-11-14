@@ -33,7 +33,7 @@ private class ItemNav(
     val Titulo: String = Descripcion
 )
 
-@OptIn(ExperimentalTextApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaginaPrincipal() {
 
