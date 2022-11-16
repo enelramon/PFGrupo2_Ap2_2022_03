@@ -1,11 +1,8 @@
-package edu.ucne.appliedbarbershop
+package edu.ucne.appliedbarbershop.ui.principal
 
 import android.app.Activity
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
@@ -13,18 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
+import edu.ucne.appliedbarbershop.utils.Constantes
 import kotlinx.coroutines.launch
 
 private class ItemNav(
@@ -35,7 +31,9 @@ private class ItemNav(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PaginaPrincipal() {
+fun PrincipalScreen(
+    navController: NavController
+) {
 
     val activity = (LocalContext.current as? Activity)
 
@@ -43,7 +41,7 @@ fun PaginaPrincipal() {
     val scope = rememberCoroutineScope()
 
     val items = listOf(
-        ItemNav("Principal", Icons.Default.Favorite, "Applied BarberShop"),
+        ItemNav("Principal", Icons.Default.Favorite, Constantes.NombreEmpresa.value),
         ItemNav("Mis Citas", Icons.Default.Favorite),
         ItemNav("Mis Perfiles", Icons.Default.Favorite),
         ItemNav("Ajustes", Icons.Default.Favorite),
@@ -128,10 +126,4 @@ fun PaginaPrincipal() {
             )
         }
     )
-}
-
-@Preview
-@Composable
-fun PreviewPaginaPrincipal() {
-    PaginaPrincipal()
 }

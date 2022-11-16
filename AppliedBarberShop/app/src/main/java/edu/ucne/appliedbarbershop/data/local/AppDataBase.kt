@@ -10,6 +10,10 @@ import edu.ucne.appliedbarbershop.data.local.models.Barbero
 import edu.ucne.appliedbarbershop.data.local.models.Perfil
 import edu.ucne.appliedbarbershop.data.local.models.Servicio
 import edu.ucne.appliedbarbershop.data.local.models.Cita
+import edu.ucne.appliedbarbershop.data.local.repository.BarberoRepository
+import edu.ucne.appliedbarbershop.data.local.repository.CitaRepository
+import edu.ucne.appliedbarbershop.data.local.repository.PerfilRepository
+import edu.ucne.appliedbarbershop.data.local.repository.ServicioRepository
 
 @Database(
     entities = [

@@ -9,7 +9,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import edu.ucne.appliedbarbershop.data.local.Sync
 import edu.ucne.appliedbarbershop.data.local.AppDataBase
+import edu.ucne.appliedbarbershop.data.local.repository.BarberoRepository
+import edu.ucne.appliedbarbershop.data.local.repository.CitaRepository
+import edu.ucne.appliedbarbershop.data.local.repository.PerfilRepository
+import edu.ucne.appliedbarbershop.data.local.repository.ServicioRepository
 import edu.ucne.appliedbarbershop.data.remote.api_dao.BarberoApi
 import edu.ucne.appliedbarbershop.data.remote.api_dao.CitaApi
 import edu.ucne.appliedbarbershop.data.remote.api_dao.PerfilApi
@@ -78,5 +83,29 @@ object AppModule {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(ServicioApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun ProvideBarberoRepository(appDataBase: AppDataBase): BarberoRepository {
+        return BarberoRepository(appDataBase)
+    }
+
+    @Singleton
+    @Provides
+    fun ProvideCitaRepository(appDataBase: AppDataBase): CitaRepository {
+        return CitaRepository(appDataBase)
+    }
+
+    @Singleton
+    @Provides
+    fun ProvidePerfilRepository(appDataBase: AppDataBase): PerfilRepository {
+        return PerfilRepository(appDataBase)
+    }
+
+    @Singleton
+    @Provides
+    fun ProvideServicioRepository(appDataBase: AppDataBase): ServicioRepository {
+        return ServicioRepository(appDataBase)
     }
 }
