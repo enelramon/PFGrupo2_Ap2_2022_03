@@ -11,36 +11,36 @@ class PerfilApiRepository @Inject constructor(
 ) {
     suspend fun getPerfiles(): List<PerfilDto>{
         return withContext(Dispatchers.IO){
-            val response = api.getAll()
-            response.body()?: emptyList()
+            val api = api.getAll()
+            api.body()?: emptyList()
         }
     }
 
     suspend fun getPerfil(id:String?): PerfilDto? {
         return withContext(Dispatchers.IO){
-            val response = api.getById(id ?: "")
-            response.body()
+            val api = api.getById(id ?: "")
+            api.body()
         }
     }
 
     suspend fun insertPerfil(perfil: PerfilDto): PerfilDto? {
         return withContext(Dispatchers.IO){
-            val response = api.insert(perfil)
-            response.body()
+            val api = api.insert(perfil)
+            api.body()
         }
     }
 
     suspend fun deletePerfil(id: String) : Boolean {
         return withContext(Dispatchers.IO){
-            val response = api.delete(id)
-            response.isSuccessful
+            val api = api.delete(id)
+            api.isSuccessful
         }
     }
 
     suspend fun updatePerfil(id: String, perfil: PerfilDto): PerfilDto?{
         return withContext(Dispatchers.IO){
-            val response = api.update(id,perfil)
-            response.body()
+            val api = api.update(id,perfil)
+            api.body()
         }
     }
 }

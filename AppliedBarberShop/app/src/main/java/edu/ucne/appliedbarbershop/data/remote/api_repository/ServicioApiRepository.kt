@@ -11,36 +11,36 @@ class ServicioApiRepository @Inject constructor(
 ) {
     suspend fun getServicios(): List<ServicioDto>{
         return withContext(Dispatchers.IO){
-            val response = api.getAll()
-            response.body()?: emptyList()
+            val api = api.getAll()
+            api.body()?: emptyList()
         }
     }
 
     suspend fun getServicio(id:String?): ServicioDto? {
         return withContext(Dispatchers.IO){
-            val response = api.getById(id ?: "")
-            response.body()
+            val api = api.getById(id ?: "")
+            api.body()
         }
     }
 
     suspend fun insertServicio(servicio: ServicioDto): ServicioDto? {
         return withContext(Dispatchers.IO){
-            val response = api.insert(servicio)
-            response.body()
+            val api = api.insert(servicio)
+            api.body()
         }
     }
 
     suspend fun deleteServicio(id: String) : Boolean {
         return withContext(Dispatchers.IO){
-            val response = api.delete(id)
-            response.isSuccessful
+            val api = api.delete(id)
+            api.isSuccessful
         }
     }
 
     suspend fun updateServicio(id: String, servicio: ServicioDto): ServicioDto?{
         return withContext(Dispatchers.IO){
-            val response = api.update(id, servicio)
-            response.body()
+            val api = api.update(id, servicio)
+            api.body()
         }
     }
 }
