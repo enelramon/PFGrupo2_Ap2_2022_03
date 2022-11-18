@@ -38,3 +38,7 @@ val Typography = Typography(
 val DancingScript = FontFamily(
     Font(R.font.dancing_script_bold)
 )
+
+val Lobster = FontFamily(
+    Font(R.font.lobster_regular)
+)

@@ -28,7 +28,7 @@ fun RegistroPerfilScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(bottom = 50.dp)
+                    .padding(bottom = 100.dp)
                     .fillMaxWidth()
             ) {
                 Button(
