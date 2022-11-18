@@ -11,36 +11,36 @@ class BarberoApiRepository @Inject constructor(
 ) {
     suspend fun getBarberos(): List<BarberoDto>{
         return withContext(Dispatchers.IO){
-            val response = api.getAll()
-            response.body()?: emptyList()
+            val api = api.getAll()
+            api.body()?: emptyList()
         }
     }
 
     suspend fun getBarbero(id:String?): BarberoDto? {
         return withContext(Dispatchers.IO){
-            val response = api.getById(id ?: "")
-            response.body()
+            val api = api.getById(id ?: "")
+            api.body()
         }
     }
 
     suspend fun insertBarbero(barbero: BarberoDto): BarberoDto? {
         return withContext(Dispatchers.IO){
-            val response = api.insert(barbero)
-            response.body()
+            val api = api.insert(barbero)
+            api.body()
         }
     }
 
     suspend fun deleteBarbero(id: String) : Boolean {
         return withContext(Dispatchers.IO){
-            val response = api.delete(id)
-            response.isSuccessful
+            val api = api.delete(id)
+            api.isSuccessful
         }
     }
 
     suspend fun updateBarbero(id: String, barbero: BarberoDto): BarberoDto?{
         return withContext(Dispatchers.IO){
-            val response = api.update(id,barbero)
-            response.body()
+            val api = api.update(id,barbero)
+            api.body()
         }
     }
 }
