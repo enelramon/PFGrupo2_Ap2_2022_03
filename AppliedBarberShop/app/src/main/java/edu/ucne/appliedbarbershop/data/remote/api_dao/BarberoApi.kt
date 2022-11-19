@@ -11,8 +11,8 @@ interface BarberoApi {
     @GET("/Barberos/GetBarberos{id}")
     suspend fun getById(@Path("id") id: String): BarberoDto
 
-    @GET("/Barberos/GetAllBarberosId{id}")
-    suspend fun getAllId(@Path("id") id: String): List<BarberoDto>
+    @GET("/Barberos/GetAllBarberoStatus")
+    suspend fun getAllStatus(): List<BarberoDto>
 
     @PUT("/Barberos/PutBarberos{id}")
     suspend fun update(@Path("id") id: String, @Body barbero: BarberoDto): BarberoDto
