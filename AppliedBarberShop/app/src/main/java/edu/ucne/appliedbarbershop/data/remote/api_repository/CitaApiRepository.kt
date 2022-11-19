@@ -17,9 +17,9 @@ class CitaApiRepository @Inject constructor(
         }
     }
 
-    suspend fun getCita(id:String?): CitaDto? {
+    suspend fun getCita(id:String?): CitaDto {
         try {
-            return this.api.getById(id ?: "0")
+            return this.api.getById(id ?: "")
         } catch (e: IOException) {
             throw e
         }
@@ -27,17 +27,15 @@ class CitaApiRepository @Inject constructor(
 
     suspend fun getCitasByClienteId(id: String?): List<CitaDto>{
         try {
-            val api = api.getAllByClienteId(id ?: "0")
-            return api
-        }catch (e: IOException){
+            return this.api.getAllByClienteId(id ?: "")
+        } catch (e: IOException) {
             throw e
         }
     }
 
-    suspend fun insertCita(cita: CitaDto): CitaDto? {
+    suspend fun insertCita(cita: CitaDto): CitaDto {
         try {
-            val api = api.insert(cita)
-            return api
+            return this.api.insert(cita)
         } catch (e: IOException) {
             throw e
         }
@@ -52,10 +50,9 @@ class CitaApiRepository @Inject constructor(
         }
     }
 
-    suspend fun updateCita(id: String, cita: CitaDto): CitaDto? {
+    suspend fun updateCita(id: String, cita: CitaDto): CitaDto {
         try {
-            val api = api.update(id,cita)
-            return api
+            return this.api.update(id, cita)
         } catch (e: IOException) {
             throw e
         }
