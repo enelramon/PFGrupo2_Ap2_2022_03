@@ -6,18 +6,22 @@ import retrofit2.http.*
 
 interface PerfilApi {
 
-    @GET("")
-    suspend fun getAll(): Response<List<PerfilDto>>
+    @GET("/Clientes/GetClientes")
+    suspend fun getAll(): List<PerfilDto>
 
-    @GET("{id}")
-    suspend fun getById(@Path("id") id: String): Response<PerfilDto>
+    @GET("/Clientes/GetClientesStatus")
+    suspend fun getAllStatus(): List<PerfilDto>
 
-    @POST("")
-    suspend fun insert(@Body perfil: PerfilDto): Response<PerfilDto>
+    @GET("/Clientes/GetClientes{id}")
+    suspend fun getById(@Path("id") id: String): PerfilDto
 
-    @DELETE("{id}")
-    suspend fun delete(@Path("id") id: String): Response<PerfilDto>
+    @PUT("/Clientes/PutClientes{id}")
+    suspend fun update(@Path("id") id: String, @Body perfil: PerfilDto): PerfilDto
 
-    @PUT("{id}")
-    suspend fun update(@Path("id") id: String, @Body perfil: PerfilDto): Response<PerfilDto>
+    @POST("/Clientes/PostClientes")
+    suspend fun insert(@Body perfil: PerfilDto): PerfilDto
+
+    @DELETE("/Clientes/Delete{id}")
+    suspend fun delete(@Path("id") id: String): PerfilDto
+
 }
