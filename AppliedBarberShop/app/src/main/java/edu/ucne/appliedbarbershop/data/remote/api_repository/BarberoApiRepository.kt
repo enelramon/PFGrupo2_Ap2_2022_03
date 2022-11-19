@@ -4,43 +4,54 @@ import edu.ucne.appliedbarbershop.data.remote.api_dao.BarberoApi
 import edu.ucne.appliedbarbershop.data.remote.dto.BarberoDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okio.IOException
 import javax.inject.Inject
 
 class BarberoApiRepository @Inject constructor(
     private val api: BarberoApi
 ) {
-    suspend fun getBarberos(): List<BarberoDto>{
-        return withContext(Dispatchers.IO){
-            val api = api.getAll()
-            api.body()?: emptyList()
+    suspend fun getBarberos(): List<BarberoDto> {
+        try {
+            val api = api.getAll();
+            return api
+        }catch (e: IOException){
+            throw e
         }
     }
 
     suspend fun getBarbero(id:String?): BarberoDto? {
-        return withContext(Dispatchers.IO){
-            val api = api.getById(id ?: "")
-            api.body()
+        try {
+            return this.api.getById(id ?: "0")
+        } catch (e: IOException) {
+            throw e
         }
     }
 
     suspend fun insertBarbero(barbero: BarberoDto): BarberoDto? {
-        return withContext(Dispatchers.IO){
+        try {
             val api = api.insert(barbero)
-            api.body()
+            return api
+        } catch (e: IOException) {
+            throw e
         }
     }
 
     suspend fun deleteBarbero(id: String) : Boolean {
-        return withContext(Dispatchers.IO){
+        try {
             val api = api.delete(id)
-            api.isSuccessful
+            return true // debe verificar si se elimino
+        } catch (e: IOException) {
+            throw e
         }
     }
 
     suspend fun updateBarbero(id: String, barbero: BarberoDto): BarberoDto?{
-        return withContext(Dispatchers.IO){
+        try {
             val api = api.update(id,barbero)
-            api.body()
+            return api
+        } catch (e: IOException) {
+            throw e
         }
     }
+    
 }
