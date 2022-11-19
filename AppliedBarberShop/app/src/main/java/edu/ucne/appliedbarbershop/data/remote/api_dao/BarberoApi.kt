@@ -1,24 +1,26 @@
 package edu.ucne.appliedbarbershop.data.remote.api_dao
 
 import edu.ucne.appliedbarbershop.data.remote.dto.BarberoDto
-import retrofit2.Response
 import retrofit2.http.*
 
 interface BarberoApi {
 
-    @GET("/api/Barberos")
+    @GET("/Barberos/GetBarberos")
     suspend fun getAll(): List<BarberoDto>
 
-    @GET("/api/Barberos/{id}")
+    @GET("/Barberos/GetBarberos{id}")
     suspend fun getById(@Path("id") id: String): BarberoDto
 
-    @POST("/api/Barberos")
+    @GET("/Barberos/GetAllBarberosId{id}")
+    suspend fun getAllId(@Path("id") id: String): List<BarberoDto>
+
+    @PUT("/Barberos/PutBarberos{id}")
+    suspend fun update(@Path("id") id: String, @Body barbero: BarberoDto): BarberoDto
+
+    @POST("/Barberos/PostBarberos")
     suspend fun insert(@Body barbero: BarberoDto): BarberoDto
 
-    @DELETE("/api/Barberos/{id}")
+    @DELETE("/Barberos/Delete{id}")
     suspend fun delete(@Path("id") id: String): BarberoDto
-
-    @PUT("/api/Barberos/{id}")
-    suspend fun update(@Path("id") id: String, @Body barbero: BarberoDto): BarberoDto
 
 }
