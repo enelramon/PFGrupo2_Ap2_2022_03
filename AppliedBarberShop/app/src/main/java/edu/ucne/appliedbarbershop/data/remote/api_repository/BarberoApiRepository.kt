@@ -2,8 +2,6 @@ package edu.ucne.appliedbarbershop.data.remote.api_repository
 
 import edu.ucne.appliedbarbershop.data.remote.api_dao.BarberoApi
 import edu.ucne.appliedbarbershop.data.remote.dto.BarberoDto
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okio.IOException
 import javax.inject.Inject
 
@@ -23,6 +21,15 @@ class BarberoApiRepository @Inject constructor(
         try {
             return this.api.getById(id ?: "0")
         } catch (e: IOException) {
+            throw e
+        }
+    }
+
+    suspend fun getAllBarberoId(id:String): List<BarberoDto> {
+        try {
+            val api = api.getAllId(id)
+            return api
+        }catch (e: IOException){
             throw e
         }
     }
@@ -53,5 +60,5 @@ class BarberoApiRepository @Inject constructor(
             throw e
         }
     }
-    
+
 }
