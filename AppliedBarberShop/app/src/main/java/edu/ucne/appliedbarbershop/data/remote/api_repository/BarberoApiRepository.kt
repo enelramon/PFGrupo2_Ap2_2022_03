@@ -2,45 +2,60 @@ package edu.ucne.appliedbarbershop.data.remote.api_repository
 
 import edu.ucne.appliedbarbershop.data.remote.api_dao.BarberoApi
 import edu.ucne.appliedbarbershop.data.remote.dto.BarberoDto
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import okio.IOException
 import javax.inject.Inject
 
 class BarberoApiRepository @Inject constructor(
     private val api: BarberoApi
 ) {
-    suspend fun getBarberos(): List<BarberoDto>{
-        return withContext(Dispatchers.IO){
-            val api = api.getAll()
-            api.body()?: emptyList()
+    suspend fun getBarberos(): List<BarberoDto> {
+        try {
+            val api = api.getAll();
+            return api
+        }catch (e: IOException){
+            throw e
         }
     }
 
-    suspend fun getBarbero(id:String?): BarberoDto? {
-        return withContext(Dispatchers.IO){
-            val api = api.getById(id ?: "")
-            api.body()
+    suspend fun getBarbero(id:String?): BarberoDto {
+        try {
+            return this.api.getById(id ?: "")
+        } catch (e: IOException) {
+            throw e
         }
     }
 
-    suspend fun insertBarbero(barbero: BarberoDto): BarberoDto? {
-        return withContext(Dispatchers.IO){
-            val api = api.insert(barbero)
-            api.body()
+    suspend fun getAllBarberosStatus(id:String): List<BarberoDto> {
+        try {
+            return this.api.getAllStatus()
+        } catch (e: IOException) {
+            throw e
+        }
+    }
+
+    suspend fun insertBarbero(barbero: BarberoDto): BarberoDto {
+        try {
+            return this.api.insert(barbero)
+        } catch (e: IOException) {
+            throw e
         }
     }
 
     suspend fun deleteBarbero(id: String) : Boolean {
-        return withContext(Dispatchers.IO){
+        try {
             val api = api.delete(id)
-            api.isSuccessful
+            return true // debe verificar si se elimino
+        } catch (e: IOException) {
+            throw e
         }
     }
 
-    suspend fun updateBarbero(id: String, barbero: BarberoDto): BarberoDto?{
-        return withContext(Dispatchers.IO){
-            val api = api.update(id,barbero)
-            api.body()
+    suspend fun updateBarbero(id: String, barbero: BarberoDto): BarberoDto {
+        try {
+            return this.api.update(id, barbero)
+        } catch (e: IOException) {
+            throw e
         }
     }
+
 }

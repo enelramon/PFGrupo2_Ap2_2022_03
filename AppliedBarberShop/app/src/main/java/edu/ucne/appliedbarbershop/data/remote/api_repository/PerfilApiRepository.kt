@@ -2,45 +2,59 @@ package edu.ucne.appliedbarbershop.data.remote.api_repository
 
 import edu.ucne.appliedbarbershop.data.remote.api_dao.PerfilApi
 import edu.ucne.appliedbarbershop.data.remote.dto.PerfilDto
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import okio.IOException
 import javax.inject.Inject
 
 class PerfilApiRepository @Inject constructor(
     private val api: PerfilApi
 ) {
     suspend fun getPerfiles(): List<PerfilDto>{
-        return withContext(Dispatchers.IO){
-            val api = api.getAll()
-            api.body()?: emptyList()
+        try {
+            val api = api.getAll();
+            return api
+        }catch (e: IOException){
+            throw e
         }
     }
 
-    suspend fun getPerfil(id:String?): PerfilDto? {
-        return withContext(Dispatchers.IO){
-            val api = api.getById(id ?: "")
-            api.body()
+    suspend fun getPerfil(id:String?): PerfilDto {
+        try {
+            return this.api.getById(id ?: "0")
+        } catch (e: IOException) {
+            throw e
         }
     }
 
-    suspend fun insertPerfil(perfil: PerfilDto): PerfilDto? {
-        return withContext(Dispatchers.IO){
-            val api = api.insert(perfil)
-            api.body()
+    suspend fun getAllPerfilStatus(id:String): List<PerfilDto> {
+        try {
+            return this.api.getAllStatus()
+        } catch (e: IOException) {
+            throw e
+        }
+    }
+
+    suspend fun insertPerfil(perfil: PerfilDto): PerfilDto {
+        try {
+            return this.api.insert(perfil)
+        } catch (e: IOException) {
+            throw e
         }
     }
 
     suspend fun deletePerfil(id: String) : Boolean {
-        return withContext(Dispatchers.IO){
+        try {
             val api = api.delete(id)
-            api.isSuccessful
+            return true // debe verificar si se elimino
+        } catch (e: IOException) {
+            throw e
         }
     }
 
-    suspend fun updatePerfil(id: String, perfil: PerfilDto): PerfilDto?{
-        return withContext(Dispatchers.IO){
-            val api = api.update(id,perfil)
-            api.body()
+    suspend fun updatePerfil(id: String, perfil: PerfilDto): PerfilDto {
+        try {
+            return this.api.update(id, perfil)
+        } catch (e: IOException) {
+            throw e
         }
     }
 }
