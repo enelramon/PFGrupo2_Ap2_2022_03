@@ -17,9 +17,9 @@ class BarberoApiRepository @Inject constructor(
         }
     }
 
-    suspend fun getBarbero(id:String?): BarberoDto? {
+    suspend fun getBarbero(id:String?): BarberoDto {
         try {
-            return this.api.getById(id ?: "0")
+            return this.api.getById(id ?: "")
         } catch (e: IOException) {
             throw e
         }
@@ -27,17 +27,15 @@ class BarberoApiRepository @Inject constructor(
 
     suspend fun getAllBarberosStatus(id:String): List<BarberoDto> {
         try {
-            val api = api.getAllStatus()
-            return api
-        }catch (e: IOException){
+            return this.api.getAllStatus()
+        } catch (e: IOException) {
             throw e
         }
     }
 
-    suspend fun insertBarbero(barbero: BarberoDto): BarberoDto? {
+    suspend fun insertBarbero(barbero: BarberoDto): BarberoDto {
         try {
-            val api = api.insert(barbero)
-            return api
+            return this.api.insert(barbero)
         } catch (e: IOException) {
             throw e
         }
@@ -52,10 +50,9 @@ class BarberoApiRepository @Inject constructor(
         }
     }
 
-    suspend fun updateBarbero(id: String, barbero: BarberoDto): BarberoDto?{
+    suspend fun updateBarbero(id: String, barbero: BarberoDto): BarberoDto {
         try {
-            val api = api.update(id,barbero)
-            return api
+            return this.api.update(id, barbero)
         } catch (e: IOException) {
             throw e
         }
