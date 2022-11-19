@@ -17,7 +17,7 @@ class PerfilApiRepository @Inject constructor(
         }
     }
 
-    suspend fun getPerfil(id:String?): PerfilDto? {
+    suspend fun getPerfil(id:String?): PerfilDto {
         try {
             return this.api.getById(id ?: "0")
         } catch (e: IOException) {
@@ -27,17 +27,15 @@ class PerfilApiRepository @Inject constructor(
 
     suspend fun getAllPerfilStatus(id:String): List<PerfilDto> {
         try {
-            val api = api.getAllStatus()
-            return api
-        }catch (e: IOException){
+            return this.api.getAllStatus()
+        } catch (e: IOException) {
             throw e
         }
     }
 
-    suspend fun insertPerfil(perfil: PerfilDto): PerfilDto? {
+    suspend fun insertPerfil(perfil: PerfilDto): PerfilDto {
         try {
-            val api = api.insert(perfil)
-            return api
+            return this.api.insert(perfil)
         } catch (e: IOException) {
             throw e
         }
@@ -52,10 +50,9 @@ class PerfilApiRepository @Inject constructor(
         }
     }
 
-    suspend fun updatePerfil(id: String, perfil: PerfilDto): PerfilDto?{
+    suspend fun updatePerfil(id: String, perfil: PerfilDto): PerfilDto {
         try {
-            val api = api.update(id,perfil)
-            return api
+            return this.api.update(id, perfil)
         } catch (e: IOException) {
             throw e
         }
