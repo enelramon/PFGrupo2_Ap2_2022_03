@@ -40,8 +40,8 @@ namespace ApiBarberShop.Controllers
             return servicio;
         }
 
-        [HttpGet("GetAllServiciosId{id}")]
-        public IEnumerable<Servicio> GetAllServicioId(int id)
+        [HttpGet("GetAllServiciosStatus")]
+        public IEnumerable<Servicio> GetAllServicioStatus()
         {
             var servicio = _context.Servicios.Where(b => b.Status > 0).ToList();
             return servicio;

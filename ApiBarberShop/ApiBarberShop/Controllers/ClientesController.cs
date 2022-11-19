@@ -27,8 +27,8 @@ namespace ApiBarberShop.Controllers
             return await _context.Clientes.ToListAsync();
         }
 
-        [HttpGet("GetAllClienteId{id}")]
-        public IEnumerable<Cliente> GetAllClienteId(int id)
+        [HttpGet("GetAllClienteStatus")]
+        public IEnumerable<Cliente> GetAllClientesStatus()
         {
             var cliente = _context.Clientes.Where(b => b.Status > 0).ToList();
             return cliente;

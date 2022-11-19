@@ -40,8 +40,8 @@ namespace ApiBarberShop.Controllers
             return barbero;
         }
 
-        [HttpGet("GetAllBarberoId{id}")]
-        public IEnumerable<Barbero> GetAllBarberoId(int id)
+        [HttpGet("GetAllBarberoStatus")]
+        public IEnumerable<Barbero> GetAllBarberoStatus()
         {
             var barberos = _context.Barberos.Where(b =>b.Status > 0).ToList();
             return barberos;
