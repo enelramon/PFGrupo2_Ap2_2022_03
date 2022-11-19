@@ -25,7 +25,7 @@ class PerfilApiRepository @Inject constructor(
         }
     }
 
-    suspend fun getAllPerfilStatus(id:String): List<PerfilDto> {
+    suspend fun getAllPerfilStatus(): List<PerfilDto> {
         try {
             return this.api.getAllStatus()
         } catch (e: IOException) {
