@@ -4,7 +4,8 @@ POST https://apibarbershop.azurewebsites.net/Barberos/PostBarberos
 Content-Type: application/json
 {
   "barberoId": 0,
-  "fechaCreacion": "2022-11-19T14:50:27.760Z",
-  "fechaModificacion": "2022-11-19T14:50:27.760Z",
-  "status": 1
+  "fechaCreacion": "2022-11-19T14:53:12.88Z",
+  "fechaModificacion": "2022-11-19T14:53:12.88Z",
+  "status": 1,
+  "cita": []
 }
