@@ -2,8 +2,6 @@ package edu.ucne.appliedbarbershop.data.remote.api_repository
 
 import edu.ucne.appliedbarbershop.data.remote.api_dao.CitaApi
 import edu.ucne.appliedbarbershop.data.remote.dto.CitaDto
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okio.IOException
 import javax.inject.Inject
 
