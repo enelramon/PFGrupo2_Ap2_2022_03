@@ -1,7 +1,6 @@
 package edu.ucne.appliedbarbershop.data.remote.api_dao
 
 import edu.ucne.appliedbarbershop.data.remote.dto.PerfilDto
-import retrofit2.Response
 import retrofit2.http.*
 
 interface PerfilApi {
