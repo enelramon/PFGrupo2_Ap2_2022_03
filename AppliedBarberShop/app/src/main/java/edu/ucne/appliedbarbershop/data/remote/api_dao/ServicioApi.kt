@@ -9,7 +9,7 @@ interface ServicioApi {
     @GET("/Servicios/GetServicios")
     suspend fun getAll(): List<ServicioDto>
 
-    @GET("/api/Servicios/{id}")
+    @GET("/Servicios/{id}")
     suspend fun getById(@Path("id") id: String): ServicioDto
 
     @GET("/Servicios/GetServiciosStatus")
