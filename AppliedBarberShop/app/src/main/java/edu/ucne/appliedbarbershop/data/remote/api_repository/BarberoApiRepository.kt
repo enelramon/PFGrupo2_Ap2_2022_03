@@ -25,9 +25,9 @@ class BarberoApiRepository @Inject constructor(
         }
     }
 
-    suspend fun getAllBarberoId(id:String): List<BarberoDto> {
+    suspend fun getAllBarberosStatus(id:String): List<BarberoDto> {
         try {
-            val api = api.getAllId(id)
+            val api = api.getAllStatus()
             return api
         }catch (e: IOException){
             throw e
