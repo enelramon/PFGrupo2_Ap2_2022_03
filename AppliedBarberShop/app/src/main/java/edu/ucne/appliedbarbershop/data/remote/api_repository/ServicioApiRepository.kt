@@ -17,7 +17,7 @@ class ServicioApiRepository @Inject constructor(
         }
     }
 
-    suspend fun getServicio(id:String?): ServicioDto? {
+    suspend fun getServicio(id:String?): ServicioDto {
         try {
             return this.api.getById(id ?: "0")
         } catch (e: IOException) {
@@ -27,17 +27,15 @@ class ServicioApiRepository @Inject constructor(
 
     suspend fun getAllServiciosStatus(): List<ServicioDto>{
         try {
-            val api = api.getAllStatus()
-            return api
-        }catch (e: IOException){
+            return this.api.getAllStatus()
+        } catch (e: IOException) {
             throw e
         }
     }
 
-    suspend fun insertServicio(servicio: ServicioDto): ServicioDto? {
+    suspend fun insertServicio(servicio: ServicioDto): ServicioDto {
         try {
-            val api = api.insert(servicio)
-            return api
+            return this.api.insert(servicio)
         } catch (e: IOException) {
             throw e
         }
@@ -52,10 +50,9 @@ class ServicioApiRepository @Inject constructor(
         }
     }
 
-    suspend fun updateServicio(id: String, servicio: ServicioDto): ServicioDto?{
+    suspend fun updateServicio(id: String, servicio: ServicioDto): ServicioDto {
         try {
-            val api = api.update(id,servicio)
-            return api
+            return this.api.update(id, servicio)
         } catch (e: IOException) {
             throw e
         }
