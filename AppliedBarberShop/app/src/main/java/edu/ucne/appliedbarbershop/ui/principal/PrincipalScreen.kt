@@ -42,13 +42,12 @@ fun PrincipalScreen(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        ///Spacer(modifier = Modifier.height(39.dp))
         Image(
             painter = painterResource(id = R.drawable.introbarbershop),
             contentDescription = "Imagen Intro"
         )
-
     }
 }

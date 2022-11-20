@@ -1,10 +1,22 @@
 package edu.ucne.appliedbarbershop
 
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.servicios.ServicioViewModel
+import edu.ucne.appliedbarbershop.utils.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -13,5 +25,38 @@ fun RegistroServicioScreen(
     id: Int = 0,
     viewModel: ServicioViewModel = hiltViewModel()
 ) {
-
+    val localContext = LocalContext.current
+    Scaffold(
+        floatingActionButton = {
+            Button(
+                //enabled = viewModel.enableSubmit,
+                onClick = {
+//                    if (viewModel.save())
+//                        navController.navigate(Screen.ConsultaServiciosScreen.Route)
+//                    else
+//                        Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT) .show()
+                }) {
+                Icon(
+                    imageVector = Icons.Filled.Done,
+                    contentDescription = "Localized description"
+                )
+            }
+        }
+    ) {
+        it
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.height(39.dp))
+            OutlinedTextField(
+                label = { Text(text = "Nombre") },
+                value = viewModel.nombre,
+                onValueChange = { viewModel.onNombreChange(it) })
+            OutlinedTextField(
+                label = { Text(text = "Imagen") },
+                value = viewModel.imagen,
+                onValueChange = { viewModel.onImagenChange(it) })
+        }
+    }
 }
