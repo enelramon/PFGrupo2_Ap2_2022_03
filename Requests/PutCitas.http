@@ -1,0 +1,19 @@
+PUT https://apibarbershop.azurewebsites.net/Citas/PutCitas3
+Content-Type: application/json
+
+{
+    "citaId": 3,
+    "servicioId": 2,
+    "barberoId": 4,
+    "clienteId": 4,
+    "fecha": "2022-11-16T18:47:59.24",
+    "mensaje": null,
+    "fechaCreacion": "2022-11-16T18:47:59.24",
+    "fechaModificacion": null,
+    "usuarioCreacionId": 1,
+    "usuarioModificacionId": null,
+    "status": 1,
+    "barbero": null,
+    "cliente": null,
+    "servicio": null
+  }

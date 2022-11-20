@@ -1,3 +1,4 @@
 
 
-GET https://apibarbershop.azurewebsites.net/api/Barberos
+GET https://apibarbershop.azurewebsites.net/Barberos/GetBarberos
+

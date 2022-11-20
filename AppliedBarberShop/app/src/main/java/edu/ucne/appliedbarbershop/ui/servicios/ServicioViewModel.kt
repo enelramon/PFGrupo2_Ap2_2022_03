@@ -43,9 +43,25 @@ class ServicioViewModel @Inject constructor(
     var isErrorNombre = false
     var msgNombre = ""
 
+    init{
+
+    }
+
+    fun getServicioByStatus(){
+        viewModelScope.launch {
+            api.getAllServiciosStatus()
+        }
+    }
+
+    fun update(id: String, servicio: ServicioDto){
+        viewModelScope.launch {
+            api.updateServicio(id, servicio)
+        }
+    }
+
     fun searchById(id: String?) {
         viewModelScope.launch {
-            api.getServicio(id ?: "")
+            api.getServicio(id ?: "") // se debe igualar a las variables de los campos en el registro
         }
     }
 

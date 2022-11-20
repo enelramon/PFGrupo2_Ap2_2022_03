@@ -22,6 +22,10 @@ class PerfilViewModel @Inject constructor(
     private val api: ClienteApiRepository,
     private val clienteRepository: ClienteRepository
 ) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(PerfilUiState())
+    val uiState: StateFlow<PerfilUiState> = _uiState.asStateFlow()
+
     var clienteId by mutableStateOf("0")
     var nombre by mutableStateOf("")
     var apellido by mutableStateOf("")
@@ -101,5 +105,44 @@ class PerfilViewModel @Inject constructor(
             enableSubmit = true
         }
         return result
+    }
+    init {
+
+    }
+
+    fun getPerfilByClienteStatus(){
+        viewModelScope.launch{
+            _uiState.getAndUpdate {
+                try {
+                    it.copy(perfiles = api.getAllPerfilStatus())
+                }catch (ioe: IOException){
+                    it.copy(perfiles = emptyList())
+                }
+            }
+        }
+    }
+
+    fun update(id: String, perfil: PerfilDto){
+        viewModelScope.launch {
+            api.updatePerfil(id, perfil)
+        }
+    }
+
+    fun searchById(id: String){
+        viewModelScope.launch{
+            api.getPerfil(id)
+        }
+    }
+
+    fun save(perfil: PerfilDto){
+        viewModelScope.launch {
+            api.insertPerfil(perfil)
+        }
+    }
+
+    fun delete(perfil: PerfilDto){
+        viewModelScope.launch {
+            api.deletePerfil(perfil.perfilId.toString())
+        }
     }
 }

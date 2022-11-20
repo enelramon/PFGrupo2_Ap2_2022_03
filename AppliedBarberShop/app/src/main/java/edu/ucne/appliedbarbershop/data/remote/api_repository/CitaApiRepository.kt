@@ -2,45 +2,59 @@ package edu.ucne.appliedbarbershop.data.remote.api_repository
 
 import edu.ucne.appliedbarbershop.data.remote.api_dao.CitaApi
 import edu.ucne.appliedbarbershop.data.remote.dto.CitaDto
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import okio.IOException
 import javax.inject.Inject
 
 class CitaApiRepository @Inject constructor(
     private val api: CitaApi
 ){
     suspend fun getCitas(): List<CitaDto>{
-        return withContext(Dispatchers.IO){
-            val response = api.getAll()
-            response.body()?: emptyList()
+        try {
+            val api = api.getAll();
+            return api
+        }catch (e: IOException){
+            throw e
         }
     }
 
-    suspend fun getCita(id:String?): CitaDto?{
-        return withContext(Dispatchers.IO){
-            val response = api.getById(id ?: "")
-            response.body()
+    suspend fun getCita(id:String?): CitaDto {
+        try {
+            return this.api.getById(id ?: "")
+        } catch (e: IOException) {
+            throw e
         }
     }
 
-    suspend fun insertCita(cita: CitaDto): CitaDto? {
-        return withContext(Dispatchers.IO){
-            val response = api.insert(cita)
-            response.body()
+    suspend fun getCitasByClienteId(id: String?): List<CitaDto>{
+        try {
+            return this.api.getAllByClienteId(id ?: "")
+        } catch (e: IOException) {
+            throw e
+        }
+    }
+
+    suspend fun insertCita(cita: CitaDto): CitaDto {
+        try {
+            return this.api.insert(cita)
+        } catch (e: IOException) {
+            throw e
         }
     }
 
     suspend fun deleteCita(id: String) : Boolean {
-        return withContext(Dispatchers.IO){
-            val response = api.delete(id)
-            response.isSuccessful
+        try {
+            val api = api.delete(id)
+            return true // debe verificar si se elimino
+        } catch (e: IOException) {
+            throw e
         }
     }
 
-    suspend fun updateCita(id: String, cita: CitaDto): CitaDto? {
-        return withContext(Dispatchers.IO){
-            val response = api.update(id, cita)
-            response.body()
+    suspend fun updateCita(id: String, cita: CitaDto): CitaDto {
+        try {
+            return this.api.update(id, cita)
+        } catch (e: IOException) {
+            throw e
         }
     }
 }
