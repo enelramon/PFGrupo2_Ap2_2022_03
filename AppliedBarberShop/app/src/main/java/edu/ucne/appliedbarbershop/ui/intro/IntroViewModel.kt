@@ -6,10 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.appliedbarbershop.data.local.Sync
 import edu.ucne.appliedbarbershop.data.local.AppDataBase
 import edu.ucne.appliedbarbershop.data.remote.api_repository.CitaApiRepository
-import edu.ucne.appliedbarbershop.data.remote.api_repository.PerfilApiRepository
+import edu.ucne.appliedbarbershop.data.remote.api_repository.ClienteApiRepository
 import edu.ucne.appliedbarbershop.data.remote.api_repository.ServicioApiRepository
 import edu.ucne.appliedbarbershop.data.remote.dto.CitaDto
-import edu.ucne.appliedbarbershop.data.remote.dto.PerfilDto
+import edu.ucne.appliedbarbershop.data.remote.dto.ClienteDto
 import edu.ucne.appliedbarbershop.data.remote.dto.ServicioDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +23,7 @@ data class CitaUiState(
     val citas: List<CitaDto> = emptyList()
 )
 data class PerfilUiState(
-    val perfiles: List<PerfilDto> = emptyList()
+    val clientees: List<ClienteDto> = emptyList()
 )
 
 @HiltViewModel
@@ -31,7 +31,7 @@ class IntroViewModel @Inject constructor(
     private val dataBase: AppDataBase,
     private val servicioApiRepository: ServicioApiRepository,
     private val citaApiRepository: CitaApiRepository,
-    private val perfilApiRepository: PerfilApiRepository
+    private val clienteApiRepository: ClienteApiRepository
 ) : ViewModel() {
 
     private val _uiStateServicio = MutableStateFlow(ServicioUiState())
@@ -47,6 +47,6 @@ class IntroViewModel @Inject constructor(
         val sync = Sync()
         sync.sincronizarServicios(viewModelScope, _uiStateServicio, servicioApiRepository, dataBase)
         sync.sincronizarCitas(viewModelScope, _uiStateCita, citaApiRepository, dataBase)
-        //sync.sincronizarPerfiles(viewModelScope, _uiStatePerfil, perfilApiRepository, dataBase)
+        //sync.sincronizarClientes(viewModelScope, _uiStatePerfil, clienteApiRepository, dataBase)
     }
 }

@@ -7,14 +7,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import edu.ucne.appliedbarbershop.ui.perfiles.PerfilViewModel
+import edu.ucne.appliedbarbershop.ui.clientees.PerfilViewModel
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
 import edu.ucne.appliedbarbershop.ui.theme.Lobster
 import edu.ucne.appliedbarbershop.utils.Screen

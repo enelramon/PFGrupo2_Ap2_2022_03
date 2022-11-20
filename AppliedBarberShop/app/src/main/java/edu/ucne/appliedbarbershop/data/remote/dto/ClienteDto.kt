@@ -3,8 +3,8 @@ package edu.ucne.appliedbarbershop.data.remote.dto
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class PerfilDto(
-    val perfilId: Int,
+data class ClienteDto(
+    val clienteId: Int,
     val nombre: String,
     val apellido: String,
     val celular: String?,

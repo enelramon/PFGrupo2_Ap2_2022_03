@@ -5,7 +5,7 @@ sealed class Screen(val Route: String, val MostrarNav: Boolean = true) {
 
     object PrincipalScreen: Screen("PrincipalScreen")
 
-    object ConsultaMisPerfilesScreen: Screen("ConsultaMisPerfilesScreen")
+    object ConsultaMisClientesScreen: Screen("ConsultaMisClientesScreen")
     object RegistroPerfilScreen: Screen("RegistroPerfilScreen", false)
     object ConfirmaRegistroPerfilScreen: Screen("ConfirmaRegistroPerfilScreen", false)
 

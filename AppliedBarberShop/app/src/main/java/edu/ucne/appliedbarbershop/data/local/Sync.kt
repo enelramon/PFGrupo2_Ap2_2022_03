@@ -1,10 +1,10 @@
 package edu.ucne.appliedbarbershop.data.local
 
 import edu.ucne.appliedbarbershop.data.local.models.Cita
-import edu.ucne.appliedbarbershop.data.local.models.Perfil
+import edu.ucne.appliedbarbershop.data.local.models.Cliente
 import edu.ucne.appliedbarbershop.data.local.models.Servicio
 import edu.ucne.appliedbarbershop.data.remote.api_repository.CitaApiRepository
-import edu.ucne.appliedbarbershop.data.remote.api_repository.PerfilApiRepository
+import edu.ucne.appliedbarbershop.data.remote.api_repository.ClienteApiRepository
 import edu.ucne.appliedbarbershop.data.remote.api_repository.ServicioApiRepository
 import edu.ucne.appliedbarbershop.ui.intro.CitaUiState
 import edu.ucne.appliedbarbershop.ui.intro.PerfilUiState
@@ -64,7 +64,7 @@ public class Sync {
                                 it.citaId,
                                 it.servicioId,
                                 it.barberoId,
-                                it.perfilId,
+                                it.clienteId,
                                 it.fecha,
                                 it.mensaje,
                                 it.usuarioCreacionId,
@@ -81,21 +81,21 @@ public class Sync {
         }
     }
 
-    fun sincronizarPerfiles(
+    fun sincronizarClientes(
         viewModelScope: CoroutineScope,
         _uiState: MutableStateFlow<PerfilUiState>,
-        apiRepository: PerfilApiRepository,
+        apiRepository: ClienteApiRepository,
         dataBase: AppDataBase
     ) {
         viewModelScope.launch {
             _uiState.getAndUpdate {
                 try {
-                    // Reemplazar por método getPerfilesPorPerfilId
-                    val perfiles = apiRepository.getPerfiles()
-                    perfiles.forEach {
-                        dataBase.perfilDao.insert(
-                            Perfil(
-                                it.perfilId,
+                    // Reemplazar por método getClientesPorPerfilId
+                    val clientees = apiRepository.getClientes()
+                    clientees.forEach {
+                        dataBase.clienteDao.insert(
+                            Cliente(
+                                it.clienteId,
                                 it.nombre,
                                 it.apellido,
                                 it.celular,
@@ -105,9 +105,9 @@ public class Sync {
                             )
                         )
                     }
-                    it.copy(perfiles = perfiles)
+                    it.copy(clientees = clientees)
                 } catch (ioe: IOException) {
-                    it.copy(perfiles = emptyList())
+                    it.copy(clientees = emptyList())
                 }
             }
         }

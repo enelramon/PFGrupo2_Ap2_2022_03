@@ -7,7 +7,7 @@ data class CitaDto(
     val citaId: Int,
     val servicioId: Int,
     val barberoId: Int,
-    val perfilId: Int,
+    val clienteId: Int,
     val fecha: String,
     val mensaje: String,
     val usuarioCreacionId: Int,

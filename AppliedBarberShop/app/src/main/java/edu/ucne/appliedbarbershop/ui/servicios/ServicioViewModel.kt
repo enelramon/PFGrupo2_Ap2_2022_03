@@ -24,11 +24,19 @@ class ServicioViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentId by mutableStateOf("")
-    val nombre by mutableStateOf("")
-    val imagen by mutableStateOf("")
-    val usuarioCreacionId by mutableStateOf("")
-    val usuarioModificacionId by mutableStateOf("")
-    val status by mutableStateOf("")
+    var nombre by mutableStateOf("")
+    var imagen by mutableStateOf("")
+    var usuarioCreacionId by mutableStateOf("")
+    var usuarioModificacionId by mutableStateOf("")
+    var status by mutableStateOf("")
+
+    fun onNombreChange(t: String) {
+        nombre = t
+    }
+
+    fun onImagenChange(t: String) {
+        imagen = t
+    }
 
     var servicios by mutableStateOf(servicioRepository.getAll())
 
