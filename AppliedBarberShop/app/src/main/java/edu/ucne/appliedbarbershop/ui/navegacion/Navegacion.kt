@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -92,19 +93,19 @@ fun NavHostComponent(
         startDestination = startDestination
     ) {
         composable(route = Screen.IntroScreen.Route) {
-            navegacionViewModel.mostrarNav = false
+            navegacionViewModel.onChangeMostrarNav(false)
             IntroScreen(navController = navController)
         }
         composable(route = Screen.PrincipalScreen.Route) {
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             PrincipalScreen(navController = navController)
         }
-        composable(route = Screen.ConsultaMisPerfilesScreen.Route) {
-            navegacionViewModel.mostrarNav = true
-            ConsultaMisPerfilesScreen(navController = navController)
+        composable(route = Screen.ConsultaMisClientesScreen.Route) {
+            navegacionViewModel.onChangeMostrarNav(true)
+            ConsultaMisClientesScreen(navController = navController)
         }
         composable(route = Screen.RegistroPerfilScreen.Route + "/{id}") { navEntry ->
-            navegacionViewModel.mostrarNav = false
+            navegacionViewModel.onChangeMostrarNav(false)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroPerfilScreen(
                 navController = navController,
@@ -112,19 +113,19 @@ fun NavHostComponent(
             )
         }
         composable(route = Screen.RegistroPerfilScreen.Route) { navEntry ->
-            navegacionViewModel.mostrarNav = false
+            navegacionViewModel.onChangeMostrarNav(false)
             RegistroPerfilScreen(navController = navController)
         }
         composable(route = Screen.ConfirmaRegistroPerfilScreen.Route) {
-            navegacionViewModel.mostrarNav = false
+            navegacionViewModel.onChangeMostrarNav(false)
             ConfirmaRegistroPerfilScreen(navController = navController)
         }
         composable(route = Screen.ConsultaMisCitasScreen.Route) {
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             ConsultaMisCitasScreen(navController = navController)
         }
         composable(route = Screen.RegistroCita_BarberoScreen.Route + "/{id}") { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroCita_BarberoScreen(
                 navController = navController,
@@ -133,14 +134,14 @@ fun NavHostComponent(
             )
         }
         composable(route = Screen.RegistroCita_BarberoScreen.Route) { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             RegistroCita_BarberoScreen(
                 navController = navController,
                 viewModel = citaViewModel
             )
         }
         composable(route = Screen.RegistroCita_ServicioScreen.Route + "/{id}") { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroCita_ServicioScreen(
                 navController = navController,
@@ -148,14 +149,14 @@ fun NavHostComponent(
             )
         }
         composable(route = Screen.RegistroCita_ServicioScreen.Route) { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             RegistroCita_ServicioScreen(
                 navController = navController,
                 viewModel = citaViewModel
             )
         }
         composable(route = Screen.RegistroCita_ReservacionScreen.Route + "/{id}") { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroCita_ReservacionScreen(
                 navController = navController,
@@ -163,30 +164,30 @@ fun NavHostComponent(
             )
         }
         composable(route = Screen.RegistroCita_ReservacionScreen.Route) { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             RegistroCita_ReservacionScreen(
                 navController = navController,
                 viewModel = citaViewModel
             )
         }
         composable(route = Screen.ConfirmaRegistroCitaScreen.Route) {
-            navegacionViewModel.mostrarNav = false
+            navegacionViewModel.onChangeMostrarNav(false)
             ConfirmaRegistroCitaScreen(navController = navController)
         }
         composable(route = Screen.ConsultaCitasPendientesScreen.Route) {
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             ConsultaCitasPendientesScreen(navController = navController)
         }
         composable(route = Screen.ConsultaHistorialCitasScreen.Route) {
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             ConsultaHistorialCitasScreen(navController = navController)
         }
         composable(route = Screen.ConsultaServiciosScreen.Route) {
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             ConsultaServiciosScreen(navController = navController)
         }
         composable(route = Screen.RegistroServicioScreen.Route + "/{id}") { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroServicioScreen(
                 navController = navController,
@@ -194,11 +195,11 @@ fun NavHostComponent(
             )
         }
         composable(route = Screen.RegistroServicioScreen.Route) { navEntry ->
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             RegistroServicioScreen(navController = navController)
         }
         composable(route = Screen.AjustesScreen.Route) {
-            navegacionViewModel.mostrarNav = true
+            navegacionViewModel.onChangeMostrarNav(true)
             AjustesScreen(navController = navController)
         }
     }
@@ -234,13 +235,13 @@ private fun DrawerContent(
                 onClick = {
                     scope.launch { drawerState.close() }
                     navController.navigate(item.screen.Route)
-                    navegacionViewModel.handleChangeSelectedItem(item)
+                    navegacionViewModel.onChangeSelectedItem(item)
                 },
                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
             )
         }
         NavigationDrawerItem(
-            icon = { Icon(Icons.Default.Favorite, contentDescription = null) },
+            icon = { Icon(Icons.Default.Logout, contentDescription = null) },
             label = { Text("Salir") },
             selected = false,
             onClick = {

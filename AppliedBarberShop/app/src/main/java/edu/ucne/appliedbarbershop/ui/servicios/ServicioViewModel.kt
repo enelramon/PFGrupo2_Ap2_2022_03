@@ -24,20 +24,44 @@ class ServicioViewModel @Inject constructor(
 ) : ViewModel() {
 
     var currentId by mutableStateOf("")
-    val nombre by mutableStateOf("")
-    val imagen by mutableStateOf("")
-    val usuarioCreacionId by mutableStateOf("")
-    val usuarioModificacionId by mutableStateOf("")
-    val status by mutableStateOf("")
+    var nombre by mutableStateOf("")
+    var imagen by mutableStateOf("")
+    var usuarioCreacionId by mutableStateOf("")
+    var usuarioModificacionId by mutableStateOf("")
+    var status by mutableStateOf("")
+
+    fun onNombreChange(t: String) {
+        nombre = t
+    }
+
+    fun onImagenChange(t: String) {
+        imagen = t
+    }
 
     var servicios by mutableStateOf(servicioRepository.getAll())
 
     var isErrorNombre = false
     var msgNombre = ""
 
+    init{
+
+    }
+
+    fun getServicioByStatus(){
+        viewModelScope.launch {
+            api.getAllServiciosStatus()
+        }
+    }
+
+    fun update(id: String, servicio: ServicioDto){
+        viewModelScope.launch {
+            api.updateServicio(id, servicio)
+        }
+    }
+
     fun searchById(id: String?) {
         viewModelScope.launch {
-            api.getServicio(id ?: "")
+            api.getServicio(id ?: "") // se debe igualar a las variables de los campos en el registro
         }
     }
 

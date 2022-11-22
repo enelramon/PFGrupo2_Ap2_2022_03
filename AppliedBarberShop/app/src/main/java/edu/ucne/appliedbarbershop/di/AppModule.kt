@@ -9,15 +9,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import edu.ucne.appliedbarbershop.data.local.Sync
 import edu.ucne.appliedbarbershop.data.local.AppDataBase
 import edu.ucne.appliedbarbershop.data.local.repository.BarberoRepository
 import edu.ucne.appliedbarbershop.data.local.repository.CitaRepository
-import edu.ucne.appliedbarbershop.data.local.repository.PerfilRepository
+import edu.ucne.appliedbarbershop.data.local.repository.ClienteRepository
 import edu.ucne.appliedbarbershop.data.local.repository.ServicioRepository
 import edu.ucne.appliedbarbershop.data.remote.api_dao.BarberoApi
 import edu.ucne.appliedbarbershop.data.remote.api_dao.CitaApi
-import edu.ucne.appliedbarbershop.data.remote.api_dao.PerfilApi
+import edu.ucne.appliedbarbershop.data.remote.api_dao.ClienteApi
 import edu.ucne.appliedbarbershop.data.remote.api_dao.ServicioApi
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -67,12 +66,12 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesPerfilApi(moshi: Moshi): PerfilApi {
+    fun providesPerfilApi(moshi: Moshi): ClienteApi {
         return Retrofit.Builder()
             .baseUrl("https://apibarbershop.azurewebsites.net")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
-            .create(PerfilApi::class.java)
+            .create(ClienteApi::class.java)
     }
 
     @Singleton
@@ -99,8 +98,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun ProvidePerfilRepository(appDataBase: AppDataBase): PerfilRepository {
-        return PerfilRepository(appDataBase)
+    fun ProvidePerfilRepository(appDataBase: AppDataBase): ClienteRepository {
+        return ClienteRepository(appDataBase)
     }
 
     @Singleton

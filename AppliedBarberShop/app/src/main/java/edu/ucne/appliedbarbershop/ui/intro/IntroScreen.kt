@@ -36,7 +36,7 @@ fun IntroScreen(
             ) {
                 Button(
                     onClick = { navController.navigate(Screen.RegistroPerfilScreen.Route) }) {
-                    Text(text = "Vamos a crear tu perfil")
+                    Text(text = "Vamos a crear tu cliente")
                 }
             }
         }
