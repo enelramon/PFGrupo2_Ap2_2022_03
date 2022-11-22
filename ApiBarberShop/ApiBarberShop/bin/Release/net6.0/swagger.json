@@ -788,6 +788,9 @@
           "format": "int32",
           "type": "integer"
         },
+        "barbero": {
+          "$ref": "#/definitions/Barbero"
+        },
         "cita": {
           "type": "array",
           "items": {

@@ -27,5 +27,8 @@ public partial class Cliente
 
     public int Status { get; set; }
 
+    [ForeignKey("BarberoId")]
+    public virtual Barbero? Barbero { get; set; }
+
     public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
 }
