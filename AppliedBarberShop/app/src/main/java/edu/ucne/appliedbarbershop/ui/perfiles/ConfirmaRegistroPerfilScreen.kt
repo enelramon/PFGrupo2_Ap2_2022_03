@@ -13,16 +13,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import edu.ucne.appliedbarbershop.ui.clientees.PerfilViewModel
+import edu.ucne.appliedbarbershop.ui.clientes.ClienteViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
 import edu.ucne.appliedbarbershop.ui.theme.Lobster
 import edu.ucne.appliedbarbershop.utils.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConfirmaRegistroPerfilScreen(
+fun ConfirmaRegistroClienteScreen(
     navController: NavController,
-    viewModel: PerfilViewModel = hiltViewModel()
+    navegacionViewModel: NavegacionViewModel,
+    viewModel: ClienteViewModel = hiltViewModel()
 ) {
     Scaffold(
         bottomBar = {
@@ -48,7 +50,7 @@ fun ConfirmaRegistroPerfilScreen(
                 Column() {
                     Spacer(modifier = Modifier.height(39.dp))
                     Text(
-                        text = "Excelente\n{Nombre}!",
+                        text = "Excelente\n" + navegacionViewModel.cliente.nombre + "!",
                         textAlign = TextAlign.Center,
                         lineHeight = 56.sp,
                         fontSize = 56.sp,

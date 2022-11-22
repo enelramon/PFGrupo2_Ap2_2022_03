@@ -14,14 +14,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import edu.ucne.appliedbarbershop.ui.clientees.PerfilViewModel
+import edu.ucne.appliedbarbershop.ui.clientes.ClienteViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.utils.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConsultaMisClientesScreen(
     navController: NavController,
-    viewModel: PerfilViewModel = hiltViewModel()
+    navegacionViewModel: NavegacionViewModel,
+    viewModel: ClienteViewModel = hiltViewModel()
 ) {
     val localContext = LocalContext.current
     Scaffold(

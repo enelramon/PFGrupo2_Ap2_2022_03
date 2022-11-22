@@ -12,12 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.intro.AjustesViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AjustesScreen(
     navController: NavController,
+    navegacionViewModel: NavegacionViewModel,
     viewModel: AjustesViewModel = hiltViewModel()
 ) {
     Column(

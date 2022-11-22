@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.intro.IntroViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
 import edu.ucne.appliedbarbershop.utils.Constantes
 import edu.ucne.appliedbarbershop.utils.Screen
@@ -24,6 +25,7 @@ import edu.ucne.appliedbarbershop.utils.Screen
 @Composable
 fun IntroScreen(
     navController: NavController,
+    navegacionViewModel: NavegacionViewModel,
     viewModel: IntroViewModel = hiltViewModel()
 ) {
     Scaffold(
@@ -34,10 +36,16 @@ fun IntroScreen(
                     .padding(bottom = 100.dp)
                     .fillMaxWidth()
             ) {
-                Button(
-                    onClick = { navController.navigate(Screen.RegistroPerfilScreen.Route) }) {
-                    Text(text = "Vamos a crear tu cliente")
-                }
+                if (navegacionViewModel.cliente.clienteId > 0)
+                    Button(
+                        onClick = { navController.navigate(Screen.PrincipalScreen.Route) }) {
+                        Text(text = "Acceder")
+                    }
+                else
+                    Button(
+                        onClick = { navController.navigate(Screen.RegistroPerfilScreen.Route) }) {
+                        Text(text = "Vamos a crear tu perfil")
+                    }
             }
         }
     ) {

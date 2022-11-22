@@ -1,29 +1,26 @@
 package edu.ucne.appliedbarbershop.ui.citas
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
+import edu.ucne.appliedbarbershop.data.local.models.*
 import edu.ucne.appliedbarbershop.data.local.repository.CitaRepository
-import edu.ucne.appliedbarbershop.data.local.repository.PerfilRepository
 import edu.ucne.appliedbarbershop.data.remote.api_repository.CitaApiRepository
-import edu.ucne.appliedbarbershop.data.remote.api_repository.PerfilApiRepository
 import edu.ucne.appliedbarbershop.data.remote.dto.CitaDto
-import edu.ucne.appliedbarbershop.data.remote.dto.ServicioDto
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.getAndUpdate
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
+import edu.ucne.appliedbarbershop.utils.Screen
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okio.IOException
+import java.time.LocalDateTime
 import javax.inject.Inject
 
-data class CitaUiState(
-    val servicios: List<CitaDto> = emptyList()
-)
 
 @HiltViewModel
 class CitaViewModel @Inject constructor(
@@ -31,21 +28,109 @@ class CitaViewModel @Inject constructor(
     private val citaRepository: CitaRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(CitaUiState())
-    val uiState: StateFlow<CitaUiState> = _uiState.asStateFlow()
+    var citaId by mutableStateOf(0)
+    var servicioId by mutableStateOf(0)
+    var barberoId by mutableStateOf(0)
+    var clienteId by mutableStateOf(0)
+    var fecha by mutableStateOf("")
+    var mensaje by mutableStateOf("")
+    var usuarioCreacionId by mutableStateOf(0)
+    var usuarioModificacionId by mutableStateOf(0)
+    var status by mutableStateOf(0)
+
+    fun onCitaIdChange(t: Int) { citaId = t }
+    fun onServicioIdChange(t: Int) { servicioId = t }
+    fun onBarberoIdChange(t: Int) { barberoId = t }
+    fun onClienteIdChange(t: Int) { clienteId = t }
+    fun onFechaChange(t: String) { fecha = t }
+    fun onFchChange(t: String) { fch = t }
+    fun onHraChange(t: String) { hra = t }
+
+    fun onUsuarioCreacionIdChange(t: Int) { usuarioCreacionId = t }
+    fun onUsuarioModificacionIdChange(t: Int) { usuarioModificacionId = t }
+    fun onStatusChange(t: Int) { status = t }
+
+    var enableSubmit by mutableStateOf(true)
+
+    var citas by mutableStateOf(emptyList<CitaCompleta>())
+    var barbero by mutableStateOf(Barbero(
+        barberoId = 0,
+        nombre = "",
+        apellido = "",
+        celular = "",
+        fechaNacimiento = "",
+        imagen = "",
+        status = 1
+    ))
+    var servicio by mutableStateOf(Servicio(
+        servicioId = 0,
+        nombre = "",
+        imagen = "",
+        usuarioCreacionId = 0,
+        usuarioModificacionId = 0,
+        status = 1,
+    ))
+    var fch by mutableStateOf("")
+    var hra by mutableStateOf("")
+
+    fun eligeBarbero(bar: Barbero){ barbero = bar }
+    fun eligeServicio(ser: Servicio){ servicio = ser }
 
     init {
-
+        getCitas()
     }
 
-    fun getCitasByClienteId(){
+    fun save(
+        localContext: Context,
+        navController: NavController,
+        navegacionViewModel: NavegacionViewModel
+    ) {
+        enableSubmit = false
         viewModelScope.launch {
-            _uiState.getAndUpdate {
-                try {
-                    it.copy(servicios = api.getCitasByClienteId(id = "ID del Cliente"))
-                }catch (ioe: IOException){
-                    it.copy(servicios = emptyList())
+            val intentoGuardar = api.insertCita(
+                CitaDto(
+                    citaId = citaId.toInt(),
+                    servicioId = servicioId,
+                    barberoId = barberoId,
+                    clienteId = clienteId,
+                    fecha = fecha,
+                    mensaje = mensaje,
+                    usuarioCreacionId = 0,
+                    usuarioModificacionId = 0,
+                    status = status
+                )
+            )
+            if (
+                intentoGuardar.citaId > 0
+            ) {
+                var citaDb = Cita(
+                    citaId = intentoGuardar.citaId.toInt(),
+                    servicioId = intentoGuardar.servicioId,
+                    barberoId = intentoGuardar.barberoId,
+                    clienteId = intentoGuardar.clienteId,
+                    fecha = intentoGuardar.fecha,
+                    mensaje = intentoGuardar.mensaje,
+                    usuarioCreacionId = intentoGuardar.usuarioCreacionId,
+                    usuarioModificacionId = intentoGuardar.usuarioModificacionId,
+                    status = intentoGuardar.status
+                )
+                citaRepository.insert(citaDb)
+                if (true) {
+                    navController.navigate(Screen.ConfirmaRegistroCitaScreen.Route)
+                } else {
+                    Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
                 }
+            } else {
+                Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
+            }
+            enableSubmit = true
+        }
+    }
+
+    fun getCitas(){
+        viewModelScope.launch {
+            citaRepository.getAll().collect {
+                citas = it
             }
         }
     }

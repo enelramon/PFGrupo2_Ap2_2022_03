@@ -1,4 +1,4 @@
-package edu.ucne.appliedbarbershop.ui.utils
+package edu.ucne.appliedbarbershop.utils
 
 sealed class Resourse<T>(val data: T? = null, val message: String? = null) {
     class Loading<T>(data: T? = null) : Resourse<T>(data)

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.R
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
 import edu.ucne.appliedbarbershop.utils.Constantes
 import kotlinx.coroutines.launch
@@ -38,7 +39,8 @@ private class ItemNav(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrincipalScreen(
-    navController: NavController
+    navController: NavController,
+    navegacionViewModel: NavegacionViewModel
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
