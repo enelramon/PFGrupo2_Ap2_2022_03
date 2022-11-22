@@ -17,5 +17,5 @@ public partial class Barbero
 
     public int Status { get; set; }
 
-    public virtual ICollection<Cita> Cita { get; } = new List<Cita>();
+    public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
 }
