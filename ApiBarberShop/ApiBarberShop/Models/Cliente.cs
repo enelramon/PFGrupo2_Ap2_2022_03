@@ -23,7 +23,7 @@ public partial class Cliente
 
     public DateTime FechaCreacion { get; set; }
 
-    public DateTime? FechaModificacion { get; set; }
+    public DateTime? FechaModificacion { get; set; } = null;
 
     public int Status { get; set; }
 

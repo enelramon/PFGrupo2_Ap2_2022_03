@@ -6,6 +6,6 @@
     "\\ApiBarberShop\\DAL",
     "\\ApiBarberShop\\Models"
   ],
-  "SelectedNode": "\\ApiBarberShop\\Models\\Cita.cs",
+  "SelectedNode": "\\ApiBarberShop\\Controllers\\BarberosController.cs",
   "PreviewInSolutionExplorer": false
 }
