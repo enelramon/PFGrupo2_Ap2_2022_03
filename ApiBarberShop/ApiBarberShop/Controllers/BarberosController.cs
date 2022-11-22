@@ -43,7 +43,8 @@ namespace ApiBarberShop.Controllers
         [HttpGet("GetAllBarberoStatus")]
         public IEnumerable<Barbero> GetAllBarberoStatus()
         {
-            var barberos = _context.Barberos.Where(b =>b.Status > 0).ToList();
+            //var barberos = _context.Barberos.Where(b =>b.Status > 0).GroupJoin(Cliente);
+            var barberos = (from b in _context.Barberos join c in _context.Clientes on b.Status > 0 equals c.Status > 0 select b).ToList();
             return barberos;
         }
 

@@ -57,6 +57,29 @@
         }
       }
     },
+    "/Barberos/GetAllBarberoStatus": {
+      "get": {
+        "tags": [
+          "Barberos"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Barbero"
+              }
+            }
+          }
+        }
+      }
+    },
     "/Barberos/PutBarberos{id}": {
       "put": {
         "tags": [
@@ -197,6 +220,38 @@
         }
       }
     },
+    "/Citas/GetClientesId{id}": {
+      "get": {
+        "tags": [
+          "Citas"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cita"
+              }
+            }
+          }
+        }
+      }
+    },
     "/Citas/PutCitas{id}": {
       "put": {
         "tags": [
@@ -286,6 +341,29 @@
       }
     },
     "/Clientes/GetClientes": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cliente"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Clientes/GetAllClienteStatus": {
       "get": {
         "tags": [
           "Clientes"
@@ -472,6 +550,29 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/Servicio"
+            }
+          }
+        }
+      }
+    },
+    "/Servicios/GetAllServiciosStatus": {
+      "get": {
+        "tags": [
+          "Servicios"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Servicio"
+              }
             }
           }
         }

@@ -1,11 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ApiBarberShop",
     "\\ApiBarberShop\\Controllers",
     "\\ApiBarberShop\\DAL",
     "\\ApiBarberShop\\Models"
   ],
-  "SelectedNode": "\\ApiBarberShop\\Controllers\\BarberosController.cs",
+  "SelectedNode": "\\ApiBarberShop.sln",
   "PreviewInSolutionExplorer": false
 }

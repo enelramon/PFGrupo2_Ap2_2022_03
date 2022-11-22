@@ -6,6 +6,31 @@
     }
   },
   "parameters": {
+    "ApiBarberShop.resourceGroupName": {
+      "Name": "ApiBarberShop.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "ApplieBarberShop"
+    },
+    "ApiBarberShop.resourceName": {
+      "Name": "ApiBarberShop.resourceName",
+      "Type": null,
+      "Value": "ApiBarberShop"
+    },
+    "subscriptionId": {
+      "Name": "subscriptionId",
+      "Type": "subscription",
+      "Value": "aa8dbb75-2b37-4ae3-b90b-50b9236a913f"
+    },
+    "ApiBarberShop.subscriptionId": {
+      "Name": "ApiBarberShop.subscriptionId",
+      "Type": "subscription",
+      "Value": "aa8dbb75-2b37-4ae3-b90b-50b9236a913f"
+    },
+    "apis1.resourceGroupLocation": {
+      "Name": "apis1.resourceGroupLocation",
+      "Type": "location",
+      "Value": "centralus"
+    },
     "apis1.resourceGroupName": {
       "Name": "apis1.resourceGroupName",
       "Type": "resourceGroup",
@@ -15,6 +40,11 @@
       "Name": "apis1.subscriptionId",
       "Type": "subscription",
       "Value": "aa8dbb75-2b37-4ae3-b90b-50b9236a913f"
+    },
+    "ApiBarberShop.resourceGroupLocation": {
+      "Name": "ApiBarberShop.resourceGroupLocation",
+      "Type": null,
+      "Value": "centralus"
     }
   }
 }
