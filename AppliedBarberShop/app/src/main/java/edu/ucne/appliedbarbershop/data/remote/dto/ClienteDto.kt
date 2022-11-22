@@ -10,5 +10,7 @@ data class ClienteDto(
     val celular: String?,
     val fechaNacimiento: String?,
     val imagen: String?,
+    val fechaCreacion: String?,
+    val fechaModificacion: String?,
     val status: Int
 )

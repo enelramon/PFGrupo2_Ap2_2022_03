@@ -18,7 +18,7 @@ import edu.ucne.appliedbarbershop.data.local.models.Cita
         Cliente::class,
         Servicio::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

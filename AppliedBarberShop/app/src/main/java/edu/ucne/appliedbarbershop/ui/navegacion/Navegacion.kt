@@ -3,7 +3,6 @@ package edu.ucne.appliedbarbershop.ui.navegacion
 import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
@@ -38,6 +37,8 @@ fun Navegacion(
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
 
+    navegacionViewModel.sincronizarCliente()
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -63,7 +64,9 @@ fun Navegacion(
                     it
                     val mdf: Modifier
                     if (navegacionViewModel.mostrarNav)
-                        mdf = Modifier.fillMaxSize().padding(top = 60.dp)
+                        mdf = Modifier
+                            .fillMaxSize()
+                            .padding(top = 60.dp)
                     else
                         mdf = Modifier.fillMaxSize()
 
@@ -79,6 +82,7 @@ fun Navegacion(
             )
         }
     )
+
 }
 
 @Composable
@@ -94,41 +98,56 @@ fun NavHostComponent(
     ) {
         composable(route = Screen.IntroScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(false)
-            IntroScreen(navController = navController)
+            IntroScreen(navController = navController, navegacionViewModel = navegacionViewModel)
         }
         composable(route = Screen.PrincipalScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(true)
-            PrincipalScreen(navController = navController)
+            PrincipalScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.ConsultaMisClientesScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(true)
-            ConsultaMisClientesScreen(navController = navController)
+            ConsultaMisClientesScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.RegistroPerfilScreen.Route + "/{id}") { navEntry ->
             navegacionViewModel.onChangeMostrarNav(false)
             val id = navEntry.arguments?.getString("id") ?: "0"
-            RegistroPerfilScreen(
-                navController = navController,
+            RegistroClienteScreen(
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 id = id.toInt()
             )
         }
         composable(route = Screen.RegistroPerfilScreen.Route) { navEntry ->
             navegacionViewModel.onChangeMostrarNav(false)
-            RegistroPerfilScreen(navController = navController)
+            RegistroClienteScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.ConfirmaRegistroPerfilScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(false)
-            ConfirmaRegistroPerfilScreen(navController = navController)
+            ConfirmaRegistroClienteScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.ConsultaMisCitasScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(true)
-            ConsultaMisCitasScreen(navController = navController)
+            ConsultaMisCitasScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.RegistroCita_BarberoScreen.Route + "/{id}") { navEntry ->
             navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroCita_BarberoScreen(
-                navController = navController,
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 id = id.toInt(),
                 viewModel = citaViewModel
             )
@@ -136,7 +155,7 @@ fun NavHostComponent(
         composable(route = Screen.RegistroCita_BarberoScreen.Route) { navEntry ->
             navegacionViewModel.onChangeMostrarNav(true)
             RegistroCita_BarberoScreen(
-                navController = navController,
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 viewModel = citaViewModel
             )
         }
@@ -144,14 +163,14 @@ fun NavHostComponent(
             navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroCita_ServicioScreen(
-                navController = navController,
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 viewModel = citaViewModel
             )
         }
         composable(route = Screen.RegistroCita_ServicioScreen.Route) { navEntry ->
             navegacionViewModel.onChangeMostrarNav(true)
             RegistroCita_ServicioScreen(
-                navController = navController,
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 viewModel = citaViewModel
             )
         }
@@ -159,48 +178,63 @@ fun NavHostComponent(
             navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroCita_ReservacionScreen(
-                navController = navController,
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 viewModel = citaViewModel
             )
         }
         composable(route = Screen.RegistroCita_ReservacionScreen.Route) { navEntry ->
             navegacionViewModel.onChangeMostrarNav(true)
             RegistroCita_ReservacionScreen(
-                navController = navController,
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 viewModel = citaViewModel
             )
         }
         composable(route = Screen.ConfirmaRegistroCitaScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(false)
-            ConfirmaRegistroCitaScreen(navController = navController)
+            ConfirmaRegistroCitaScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.ConsultaCitasPendientesScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(true)
-            ConsultaCitasPendientesScreen(navController = navController)
+            ConsultaCitasPendientesScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.ConsultaHistorialCitasScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(true)
-            ConsultaHistorialCitasScreen(navController = navController)
+            ConsultaHistorialCitasScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.ConsultaServiciosScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(true)
-            ConsultaServiciosScreen(navController = navController)
+            ConsultaServiciosScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.RegistroServicioScreen.Route + "/{id}") { navEntry ->
             navegacionViewModel.onChangeMostrarNav(true)
             val id = navEntry.arguments?.getString("id") ?: "0"
             RegistroServicioScreen(
-                navController = navController,
+                navController = navController, navegacionViewModel = navegacionViewModel,
                 id = id.toInt()
             )
         }
         composable(route = Screen.RegistroServicioScreen.Route) { navEntry ->
             navegacionViewModel.onChangeMostrarNav(true)
-            RegistroServicioScreen(navController = navController)
+            RegistroServicioScreen(
+                navController = navController,
+                navegacionViewModel = navegacionViewModel
+            )
         }
         composable(route = Screen.AjustesScreen.Route) {
             navegacionViewModel.onChangeMostrarNav(true)
-            AjustesScreen(navController = navController)
+            AjustesScreen(navController = navController, navegacionViewModel = navegacionViewModel)
         }
     }
 }
@@ -220,7 +254,7 @@ private fun DrawerContent(
     ModalDrawerSheet {
         Spacer(Modifier.height(50.dp))
         Text(
-            text = "Albert Mendoza",
+            text = navegacionViewModel.cliente.nombre + " " + navegacionViewModel.cliente.apellido,
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),

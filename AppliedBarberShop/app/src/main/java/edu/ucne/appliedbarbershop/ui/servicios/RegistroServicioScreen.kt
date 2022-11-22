@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.ui.servicios.ServicioViewModel
 import edu.ucne.appliedbarbershop.utils.Screen
 
@@ -22,6 +23,7 @@ import edu.ucne.appliedbarbershop.utils.Screen
 @Composable
 fun RegistroServicioScreen(
     navController: NavController,
+    navegacionViewModel: NavegacionViewModel,
     id: Int = 0,
     viewModel: ServicioViewModel = hiltViewModel()
 ) {

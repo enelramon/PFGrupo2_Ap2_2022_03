@@ -1,30 +1,34 @@
-package edu.ucne.appliedbarbershop.ui.clientees
+package edu.ucne.appliedbarbershop.ui.clientes
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
+import edu.ucne.appliedbarbershop.data.local.models.Cliente
 import edu.ucne.appliedbarbershop.data.local.repository.ClienteRepository
 import edu.ucne.appliedbarbershop.data.remote.api_repository.ClienteApiRepository
 import edu.ucne.appliedbarbershop.data.remote.dto.ClienteDto
+import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
+import edu.ucne.appliedbarbershop.utils.Screen
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.time.LocalDateTime
 import javax.inject.Inject
 
-data class PerfilUiState(
-    val clientees: List<ClienteDto> = emptyList()
-)
-
 @HiltViewModel
-class PerfilViewModel @Inject constructor(
+class ClienteViewModel @Inject constructor(
     private val api: ClienteApiRepository,
     private val clienteRepository: ClienteRepository
 ) : ViewModel() {
-
-    private val _uiState = MutableStateFlow(PerfilUiState())
-    val uiState: StateFlow<PerfilUiState> = _uiState.asStateFlow()
 
     var clienteId by mutableStateOf("0")
     var nombre by mutableStateOf("")
@@ -34,7 +38,7 @@ class PerfilViewModel @Inject constructor(
     var imagen by mutableStateOf("")
     var status by mutableStateOf("1")
 
-    fun onPerfilIdChange(t: String) {
+    fun onClienteIdChange(t: String) {
         clienteId = t
     }
 
@@ -64,85 +68,49 @@ class PerfilViewModel @Inject constructor(
 
     var enableSubmit by mutableStateOf(true)
 
-    fun save(): MutableLiveData<Boolean> {
+    fun save(
+        localContext: Context,
+        navController: NavController,
+        navegacionViewModel: NavegacionViewModel
+    ) {
         enableSubmit = false
-        val result = MutableLiveData<Boolean>()
         viewModelScope.launch {
-            if (api.insertPerfil(
-                    ClienteDto(
-                        clienteId = clienteId.toInt(),
-                        nombre = nombre,
-                        apellido = apellido,
-                        celular = celular,
-                        fechaNacimiento = fechaNacimiento,
-                        imagen = imagen,
-                        status = status.toInt()
-                    )
+            val intentoGuardar = api.insertCliente(
+                ClienteDto(
+                    clienteId = clienteId.toInt(),
+                    nombre = nombre,
+                    apellido = apellido,
+                    celular = celular,
+                    fechaNacimiento = fechaNacimiento,
+                    imagen = imagen,
+                    fechaCreacion = LocalDateTime.now().toString(),
+                    fechaModificacion = LocalDateTime.now().toString(),
+                    status = status.toInt()
                 )
+            )
+            if (
+                intentoGuardar.clienteId > 0
             ) {
-//                if (clienteRepository.insert(
-//                        Perfil(
-//                            clienteId = clienteId.toInt(),
-//                            nombre = nombre,
-//                            apellido = apellido,
-//                            celular = celular,
-//                            fechaNacimiento = fechaNacimiento,
-//                            imagen = imagen,
-//                            status = status.toInt()
-//                        )
-//                    )
-//                ) {
-//                    result.postValue(true)
-//                } else {
-//                    result.postValue(false)
-//                }
-
-                result.postValue(true)
-
+                var clienteDb = Cliente(
+                    clienteId = intentoGuardar.clienteId,
+                    nombre = intentoGuardar.nombre,
+                    apellido = intentoGuardar.apellido,
+                    celular = intentoGuardar.celular,
+                    fechaNacimiento = intentoGuardar.fechaNacimiento,
+                    imagen = intentoGuardar.imagen,
+                    status = intentoGuardar.status.toInt()
+                )
+                clienteRepository.insert(clienteDb)
+                if (true) {
+                    navegacionViewModel.cliente = clienteDb
+                    navController.navigate(Screen.ConfirmaRegistroPerfilScreen.Route)
+                } else {
+                    Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                result.postValue(false)
+                Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
             }
             enableSubmit = true
-        }
-        return result
-    }
-    init {
-
-    }
-
-    fun getPerfilByClienteStatus(){
-        viewModelScope.launch{
-            _uiState.getAndUpdate {
-                try {
-                    it.copy(perfiles = api.getAllPerfilStatus())
-                }catch (ioe: IOException){
-                    it.copy(perfiles = emptyList())
-                }
-            }
-        }
-    }
-
-    fun update(id: String, perfil: PerfilDto){
-        viewModelScope.launch {
-            api.updatePerfil(id, perfil)
-        }
-    }
-
-    fun searchById(id: String){
-        viewModelScope.launch{
-            api.getPerfil(id)
-        }
-    }
-
-    fun save(perfil: PerfilDto){
-        viewModelScope.launch {
-            api.insertPerfil(perfil)
-        }
-    }
-
-    fun delete(perfil: PerfilDto){
-        viewModelScope.launch {
-            api.deletePerfil(perfil.perfilId.toString())
         }
     }
 }
