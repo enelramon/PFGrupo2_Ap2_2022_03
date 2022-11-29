@@ -20,6 +20,11 @@ import edu.ucne.appliedbarbershop.data.remote.dto.ClienteDto
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.utils.Screen
 import kotlinx.coroutines.flow.*
+import edu.ucne.appliedbarbershop.utils.Validator
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.time.LocalDateTime
@@ -125,9 +130,43 @@ class ClienteViewModel @Inject constructor(
                     Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(localContext, validar(), Toast.LENGTH_SHORT).show()
             }
             enableSubmit = true
+        }
+    }
+
+    private fun validar(): String{
+
+        var msg = ""
+
+        if (nombre.isEmpty()){
+            msg = "*Se debe llenar el campo Nombre*"
+        } else if(!(nombre.any{it.isLetter()})){
+            msg = "*Nombre no valido*"
+        } else if(apellido.isEmpty()){
+            msg = "*Se debe llenar el campo Apellido*"
+        } else if(!(apellido.any{it.isLetter()})){
+            msg = "*Apellido no valido*"
+        } else if(celular.isEmpty()){
+            msg = "*Se debe llenar el campo Celular*"
+        } else if (celular.length < 10 && celular.isNotEmpty()) {
+            msg = "*El campo *Celular* debe tener al menos 10 Digitos*"
+        } else if (!isNumeric(celular)) {
+            msg = "*El campo celular tiene simbolos no permitidos*"
+        } else{
+            msg = "Revise su coneccion a internet"
+        }
+
+        return  msg
+    }
+
+    private fun isNumeric(aux: String): Boolean{
+        return try{
+            aux.toDouble()
+            true
+        }catch(e: NumberFormatException){
+            false
         }
     }
 
