@@ -16,5 +16,8 @@ interface ServicioDao {
     fun getAll(): Flow<List<Servicio>>
 
     @Query("Select * from Servicios where servicioId=:id")
-    suspend fun getById(id:Int): Servicio?
+    fun getById(id:Int): Flow<Servicio?>
+
+    @Query("Delete from servicios")
+    suspend fun truncateTable()
 }

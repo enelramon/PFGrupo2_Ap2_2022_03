@@ -17,11 +17,15 @@ class ClienteRepository @Inject constructor(
         db.clienteDao.delete(cliente)
     }
 
-    fun getAll(): Flow<List<Cliente>> {
+    suspend fun getAll(): Flow<List<Cliente>> {
         return db.clienteDao.getAll()
     }
 
-    suspend fun getById(id: Int): Cliente? {
+    suspend fun getById(id: Int): Flow<Cliente?> {
         return db.clienteDao.getById(id)
+    }
+
+    suspend fun truncateTable() {
+        return db.barberoDao.truncateTable()
     }
 }

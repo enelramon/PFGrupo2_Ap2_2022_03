@@ -1,38 +1,47 @@
-
 package edu.ucne.appliedbarbershop
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.citas.CitaViewModel
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
+import edu.ucne.appliedbarbershop.utils.Components.ComboFecha
+import edu.ucne.appliedbarbershop.utils.Components.ComboHora
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistroCita_ReservacionScreen(
     navController: NavController,
     navegacionViewModel: NavegacionViewModel,
-    viewModel: CitaViewModel // Se debe inicializar el viewModel y pasarslo
+    viewModel: CitaViewModel,
+    drawerState: DrawerState,
+    scope: CoroutineScope
 ) {
     val localContext = LocalContext.current
     Scaffold(
+        topBar = {
+            TopBar(
+                scope,
+                navegacionViewModel.selectedItem,
+                drawerState
+            )
+        },
         floatingActionButton = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .padding(bottom = 100.dp)
                     .fillMaxWidth()
+                    .padding(bottom = 100.dp)
             ) {
                 Button(
-                    enabled = viewModel.enableSubmit,
+                    enabled = (viewModel.fch.isNotBlank() && viewModel.hra.isNotBlank()) && viewModel.enableSubmit,
                     onClick = {
                         viewModel.save(localContext, navController, navegacionViewModel)
                     }) {
@@ -44,17 +53,21 @@ fun RegistroCita_ReservacionScreen(
         it
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(end = 28.dp, start = 28.dp, bottom = 20.dp, top = 68.dp)
         ) {
             Spacer(modifier = Modifier.height(39.dp))
-            OutlinedTextField(
-                label = { Text(text = "Fecha") },
+            ComboFecha(
+                label = "Fecha",
                 value = viewModel.fch,
-                onValueChange = { viewModel.onFchChange(it) })
-            OutlinedTextField(
-                label = { Text(text = "Hora") },
+                onValueChange = { viewModel.onFchChange(it) }
+            )
+            ComboHora(
+                label = "Hora",
                 value = viewModel.hra,
-                onValueChange = { viewModel.onHraChange(it) })
+                onValueChange = { viewModel.onHraChange(it) }
+            )
         }
     }
 }

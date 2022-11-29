@@ -16,8 +16,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
 import edu.ucne.appliedbarbershop.ui.servicios.ServicioViewModel
 import edu.ucne.appliedbarbershop.utils.Screen
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,18 +27,24 @@ fun RegistroServicioScreen(
     navController: NavController,
     navegacionViewModel: NavegacionViewModel,
     id: Int = 0,
-    viewModel: ServicioViewModel = hiltViewModel()
+    viewModel: ServicioViewModel = hiltViewModel(),
+    drawerState: DrawerState,
+    scope: CoroutineScope
 ) {
     val localContext = LocalContext.current
     Scaffold(
+        topBar = {
+            TopBar(
+                scope,
+                navegacionViewModel.selectedItem,
+                drawerState
+            )
+        },
         floatingActionButton = {
             Button(
-                //enabled = viewModel.enableSubmit,
+                enabled = viewModel.nombre.isNotBlank() && viewModel.enableSubmit,
                 onClick = {
-//                    if (viewModel.save())
-//                        navController.navigate(Screen.ConsultaServiciosScreen.Route)
-//                    else
-//                        Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT) .show()
+                    viewModel.save(localContext, navController, navegacionViewModel)
                 }) {
                 Icon(
                     imageVector = Icons.Filled.Done,
@@ -48,7 +56,9 @@ fun RegistroServicioScreen(
         it
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(end = 28.dp, start = 28.dp, bottom = 20.dp, top = 68.dp)
         ) {
             Spacer(modifier = Modifier.height(39.dp))
             OutlinedTextField(

@@ -17,7 +17,11 @@ class ServicioRepository @Inject constructor(
         db.servicioDao.delete(servicio)
     }
 
-    fun getAll(): Flow<List<Servicio>> {
+    suspend fun getAll(): Flow<List<Servicio>> {
         return db.servicioDao.getAll()
+    }
+
+    suspend fun truncateTable() {
+        return db.barberoDao.truncateTable()
     }
 }

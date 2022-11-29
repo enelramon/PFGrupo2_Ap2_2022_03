@@ -1,4 +1,3 @@
-
 package edu.ucne.appliedbarbershop
 
 import android.widget.Toast
@@ -21,20 +20,34 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.citas.CitaViewModel
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
 import edu.ucne.appliedbarbershop.utils.Components.CardComponent
 import edu.ucne.appliedbarbershop.utils.Screen
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistroCita_ServicioScreen(
     navController: NavController,
     navegacionViewModel: NavegacionViewModel,
-    viewModel: CitaViewModel // Se debe inicializar el viewModel y pasarslo
+    viewModel: CitaViewModel,
+    drawerState: DrawerState,
+    scope: CoroutineScope
 ) {
     val localContext = LocalContext.current
     Scaffold(
+        topBar = {
+            TopBar(
+                scope,
+                navegacionViewModel.selectedItem,
+                drawerState
+            )
+        },
         floatingActionButton = {
-            Button(onClick = { navController.navigate(Screen.RegistroCita_ReservacionScreen.Route) }) {
+            Button(
+                enabled = viewModel.servicio.servicioId > 0,
+                onClick = { navController.navigate(Screen.RegistroCita_ReservacionScreen.Route) }
+            ) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowRight,
                     contentDescription = "Localized description"
@@ -48,12 +61,14 @@ fun RegistroCita_ServicioScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(28.dp)
+                .padding(end = 28.dp, start = 28.dp, bottom = 20.dp, top = 68.dp)
         ) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(navegacionViewModel.servicios) {
                     CardComponent(
                         titulo = it.nombre ?: "",
                         selected = (it == viewModel.servicio),
+                        clickeable = true,
                         onClick = {
                             viewModel.eligeServicio(it)
                         }

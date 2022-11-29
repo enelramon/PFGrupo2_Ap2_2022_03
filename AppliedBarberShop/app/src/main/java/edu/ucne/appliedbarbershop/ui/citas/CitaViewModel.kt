@@ -15,9 +15,7 @@ import edu.ucne.appliedbarbershop.data.remote.api_repository.CitaApiRepository
 import edu.ucne.appliedbarbershop.data.remote.dto.CitaDto
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.utils.Screen
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import okio.IOException
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -36,24 +34,11 @@ class CitaViewModel @Inject constructor(
     var mensaje by mutableStateOf("")
     var usuarioCreacionId by mutableStateOf(0)
     var usuarioModificacionId by mutableStateOf(0)
-    var status by mutableStateOf(0)
-
-    fun onCitaIdChange(t: Int) { citaId = t }
-    fun onServicioIdChange(t: Int) { servicioId = t }
-    fun onBarberoIdChange(t: Int) { barberoId = t }
-    fun onClienteIdChange(t: Int) { clienteId = t }
-    fun onFechaChange(t: String) { fecha = t }
-    fun onFchChange(t: String) { fch = t }
-    fun onHraChange(t: String) { hra = t }
-
-    fun onUsuarioCreacionIdChange(t: Int) { usuarioCreacionId = t }
-    fun onUsuarioModificacionIdChange(t: Int) { usuarioModificacionId = t }
-    fun onStatusChange(t: Int) { status = t }
+    var status by mutableStateOf(1)
 
     var enableSubmit by mutableStateOf(true)
-
-    var citas by mutableStateOf(emptyList<CitaCompleta>())
-    var barbero by mutableStateOf(Barbero(
+    var openDialogRechazar by mutableStateOf(false)
+    val instanciaBarbero = Barbero(
         barberoId = 0,
         nombre = "",
         apellido = "",
@@ -61,33 +46,224 @@ class CitaViewModel @Inject constructor(
         fechaNacimiento = "",
         imagen = "",
         status = 1
-    ))
-    var servicio by mutableStateOf(Servicio(
+    )
+    var barbero by mutableStateOf(
+        instanciaBarbero
+    )
+    val instanciaServicio = Servicio(
         servicioId = 0,
         nombre = "",
         imagen = "",
         usuarioCreacionId = 0,
         usuarioModificacionId = 0,
         status = 1,
-    ))
+    )
+    var servicio by mutableStateOf(
+        instanciaServicio
+    )
     var fch by mutableStateOf("")
     var hra by mutableStateOf("")
 
-    fun eligeBarbero(bar: Barbero){ barbero = bar }
-    fun eligeServicio(ser: Servicio){ servicio = ser }
+    fun onOpenDialogRechazarChange(t: Boolean) {
+        openDialogRechazar = t
+    }
 
-    init {
-        getCitas()
+    fun onCitaIdChange(t: Int) {
+        citaId = t
+    }
+
+    fun onServicioIdChange(t: Int) {
+        servicioId = t
+    }
+
+    fun onBarberoIdChange(t: Int) {
+        barberoId = t
+    }
+
+    fun onClienteIdChange(t: Int) {
+        clienteId = t
+    }
+
+    fun onFechaChange(t: String) {
+        fecha = t
+    }
+
+    fun onFchChange(t: String) {
+        fch = t
+    }
+
+    fun onHraChange(t: String) {
+        hra = t
+    }
+
+    fun onUsuarioCreacionIdChange(t: Int) {
+        usuarioCreacionId = t
+    }
+
+    fun onUsuarioModificacionIdChange(t: Int) {
+        usuarioModificacionId = t
+    }
+
+    fun onStatusChange(t: Int) {
+        status = t
+    }
+
+    fun buscarCita(id: Int, navegacionViewModel: NavegacionViewModel) {
+        navegacionViewModel.citasPendientes.forEach { c ->
+            if (c.citaId == id) {
+                citaId = c.citaId
+                servicioId = c.servicioId
+                barberoId = c.barberoId
+                clienteId = c.clienteId
+                fecha = c.fecha
+                mensaje = c.mensaje ?: ""
+                usuarioCreacionId = c.usuarioCreacionId
+                usuarioModificacionId = c.usuarioModificacionId ?: 0
+                status = c.status
+
+                var localDateTime = LocalDateTime.parse(c.fecha)
+
+                fch =
+                    localDateTime.year.toString() + "-" + (if (localDateTime.monthValue.toString()
+                            .count() == 1
+                    ) "0" + localDateTime.monthValue.toString() else localDateTime.monthValue.toString()) + "-" + (if (localDateTime.dayOfMonth.toString()
+                            .count() == 1
+                    ) "0" + localDateTime.dayOfMonth.toString() else localDateTime.dayOfMonth.toString())
+                hra =
+                    (if (localDateTime.hour.toString()
+                            .count() == 1
+                    ) "0" + localDateTime.hour.toString() else localDateTime.hour.toString()) + ":" + (if (localDateTime.minute.toString()
+                            .count() == 1
+                    ) "0" + localDateTime.minute.toString() else localDateTime.minute.toString()) + ":" + (if (localDateTime.second.toString()
+                            .count() == 1
+                    ) "0" + localDateTime.second.toString() else localDateTime.second.toString())
+
+                navegacionViewModel.barberos.forEach {
+                    if (it.barberoId == c.barberoId)
+                        barbero = it
+                }
+
+                navegacionViewModel.servicios.forEach {
+                    if (it.servicioId == c.servicioId)
+                        servicio = it
+                }
+            }
+        }
+    }
+
+    fun cargarCita(id: Int, navegacionViewModel: NavegacionViewModel) {
+        viewModelScope.launch {
+            citaRepository.getById(id).collect { c ->
+                if (c != null) {
+                    citaId = c.citaId
+                    servicioId = c.servicioId
+                    barberoId = c.barberoId
+                    clienteId = c.clienteId
+                    fecha = c.fecha
+                    mensaje = c.mensaje ?: ""
+                    usuarioCreacionId = c.usuarioCreacionId
+                    usuarioModificacionId = c.usuarioModificacionId ?: 0
+                    status = c.status
+
+                    var localDateTime = LocalDateTime.parse(c.fecha)
+
+                    fch =
+                        localDateTime.year.toString() + "-" + (if (localDateTime.monthValue.toString()
+                                .count() == 1
+                        ) "0" + localDateTime.monthValue.toString() else localDateTime.monthValue.toString()) + "-" + (if (localDateTime.dayOfMonth.toString()
+                                .count() == 1
+                        ) "0" + localDateTime.dayOfMonth.toString() else localDateTime.dayOfMonth.toString())
+                    hra =
+                        (if (localDateTime.hour.toString()
+                                .count() == 1
+                        ) "0" + localDateTime.hour.toString() else localDateTime.hour.toString()) + ":" + (if (localDateTime.minute.toString()
+                                .count() == 1
+                        ) "0" + localDateTime.minute.toString() else localDateTime.minute.toString()) + ":" + (if (localDateTime.second.toString()
+                                .count() == 1
+                        ) "0" + localDateTime.second.toString() else localDateTime.second.toString())
+
+                    navegacionViewModel.barberos.forEach {
+                        if (it.barberoId == c.barberoId)
+                            barbero = it
+                    }
+
+                    navegacionViewModel.servicios.forEach {
+                        if (it.servicioId == c.servicioId)
+                            servicio = it
+                    }
+                }
+            }
+        }
+    }
+
+    fun eligeBarbero(bar: Barbero) {
+        if (barbero == bar)
+            barbero = instanciaBarbero
+        else
+            barbero = bar
+    }
+
+    fun eligeServicio(ser: Servicio) {
+        if (servicio == ser)
+            servicio = instanciaServicio
+        else
+            servicio = ser
+    }
+
+    fun realizar(
+        id: Int,
+        localContext: Context,
+        navController: NavController,
+        navegacionViewModel: NavegacionViewModel
+    ) {
+        buscarCita(id, navegacionViewModel)
+        val s = 2
+        save(
+            localContext = localContext,
+            navController = navController,
+            navegacionViewModel = navegacionViewModel,
+            statusCita = s,
+            salirAlTerminar = false
+        )
+    }
+
+    fun rechazar(
+        localContext: Context,
+        navController: NavController,
+        navegacionViewModel: NavegacionViewModel
+    ) {
+        val s = 3
+        save(
+            localContext = localContext,
+            navController = navController,
+            navegacionViewModel = navegacionViewModel,
+            statusCita = s,
+            salirAlTerminar = false
+        )
     }
 
     fun save(
         localContext: Context,
         navController: NavController,
-        navegacionViewModel: NavegacionViewModel
+        navegacionViewModel: NavegacionViewModel,
+        statusCita: Int = 1,
+        salirAlTerminar: Boolean = true
     ) {
         enableSubmit = false
+
+        servicioId = servicio.servicioId
+        barberoId = barbero.barberoId
+        clienteId = navegacionViewModel.cliente.clienteId
+        fecha = fch + "T" + hra
+        status = statusCita
+
+        if (citaId == 0)
+            usuarioCreacionId = navegacionViewModel.cliente.clienteId
+
+        usuarioModificacionId = navegacionViewModel.cliente.clienteId
+
         viewModelScope.launch {
-            val intentoGuardar = api.insertCita(
+            val intentoGuardar = if (citaId == 0) api.insertCita(
                 CitaDto(
                     citaId = citaId.toInt(),
                     servicioId = servicioId,
@@ -95,8 +271,21 @@ class CitaViewModel @Inject constructor(
                     clienteId = clienteId,
                     fecha = fecha,
                     mensaje = mensaje,
-                    usuarioCreacionId = 0,
-                    usuarioModificacionId = 0,
+                    usuarioCreacionId = usuarioCreacionId,
+                    usuarioModificacionId = usuarioModificacionId,
+                    status = status
+                )
+            ) else api.updateCita(
+                citaId.toString(),
+                CitaDto(
+                    citaId = citaId.toInt(),
+                    servicioId = servicioId,
+                    barberoId = barberoId,
+                    clienteId = clienteId,
+                    fecha = fecha,
+                    mensaje = mensaje,
+                    usuarioCreacionId = usuarioCreacionId,
+                    usuarioModificacionId = usuarioModificacionId,
                     status = status
                 )
             )
@@ -115,8 +304,11 @@ class CitaViewModel @Inject constructor(
                     status = intentoGuardar.status
                 )
                 citaRepository.insert(citaDb)
+
                 if (true) {
-                    navController.navigate(Screen.ConfirmaRegistroCitaScreen.Route)
+                    navegacionViewModel.sincronizarCitasApi()
+                    if (salirAlTerminar)
+                        navController.navigate(Screen.ConfirmaRegistroCitaScreen.Route)
                 } else {
                     Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
                 }
@@ -127,15 +319,7 @@ class CitaViewModel @Inject constructor(
         }
     }
 
-    fun getCitas(){
-        viewModelScope.launch {
-            citaRepository.getAll().collect {
-                citas = it
-            }
-        }
-    }
-
-    fun update(id: String, cita: CitaDto){
+    fun update(id: String, cita: CitaDto) {
         viewModelScope.launch {
             api.updateCita(id, cita)
         }

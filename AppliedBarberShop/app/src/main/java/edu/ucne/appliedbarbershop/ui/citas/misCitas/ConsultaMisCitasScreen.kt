@@ -24,18 +24,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.ui.citas.CitaViewModel
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
 import edu.ucne.appliedbarbershop.utils.Components.CardComponent
 import edu.ucne.appliedbarbershop.utils.Screen
+import kotlinx.coroutines.CoroutineScope
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConsultaMisCitasScreen(
     navController: NavController,
     navegacionViewModel: NavegacionViewModel,
-    viewModel: CitaViewModel = hiltViewModel()
+    viewModel: CitaViewModel = hiltViewModel(),
+    drawerState: DrawerState,
+    scope: CoroutineScope
 ) {
     val localContext = LocalContext.current
     Scaffold(
+        topBar = {
+            TopBar(
+                scope,
+                navegacionViewModel.selectedItem,
+                drawerState
+            )
+        },
         floatingActionButton = {
             Button(onClick = { navController.navigate(Screen.RegistroCita_BarberoScreen.Route) }) {
                 Icon(
@@ -50,19 +62,41 @@ fun ConsultaMisCitasScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(28.dp)
+                .padding(end = 28.dp, start = 28.dp, bottom = 20.dp, top = 68.dp)
         ) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(viewModel.citas) {
-                    CardComponent(
-                        titulo = it.barberoNombre ?: "",
-                        subtitulo = it.barberoCelular ?: "",
-                        cuerpo = it.fecha,
-                        btn1Nombre = "Editar",
-                        btn2Nombre = "Eliminar",
-                        btn1OnClick = {},
-                        btn2OnClick = {}
-                    )
+                items(navegacionViewModel.citas) {
+                    var localDateTime = LocalDateTime.parse(it.fecha)
+//                    Text(text = "dayOfWeek: " + localDateTime.dayOfWeek.toString())
+//                    Text(text = "dayOfMonth: " + localDateTime.dayOfMonth.toString())
+//                    Text(text = "dayOfYear: " + localDateTime.dayOfYear.toString())
+//                    Text(text = "hour: " + localDateTime.hour.toString())
+//                    Text(text = "minute: " + localDateTime.minute.toString())
+//                    Text(text = "month: " + localDateTime.month.toString())
+//                    Text(text = "monthValue: " + localDateTime.monthValue.toString())
+//                    Text(text = "nano: " + localDateTime.nano.toString())
+//                    Text(text = "second: " + localDateTime.second.toString())
+//                    Text(text = "year: " + localDateTime.year.toString())
+                    if (it.status == 1 || it.status == 3)
+                        CardComponent(
+                            titulo = (it.barberoNombre + " " + it.barberoApellido) ?: "",
+                            subtitulo = it.barberoCelular ?: "",
+                            cuerpo = it.fecha + "\n" + it.servicioNombre,
+                            status = it.status,
+                            mensaje = it.mensaje,
+                            btn1Nombre = "Editar",
+                            btn2Nombre = "Eliminar",
+                            btn1OnClick = { navController.navigate(Screen.RegistroCita_BarberoScreen.Route + "/" + it.citaId.toString()) },
+                            btn2OnClick = {}
+                        )
+                    else
+                        CardComponent(
+                            titulo = (it.barberoNombre + " " + it.barberoApellido) ?: "",
+                            subtitulo = it.barberoCelular ?: "",
+                            cuerpo = it.fecha,
+                            status = it.status,
+                            mensaje = it.mensaje
+                        )
                 }
             }
         }

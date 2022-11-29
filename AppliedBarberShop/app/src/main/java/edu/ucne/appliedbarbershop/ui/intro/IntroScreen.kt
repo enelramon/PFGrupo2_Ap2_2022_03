@@ -36,16 +36,18 @@ fun IntroScreen(
                     .padding(bottom = 100.dp)
                     .fillMaxWidth()
             ) {
-                if (navegacionViewModel.cliente.clienteId > 0)
-                    Button(
-                        onClick = { navController.navigate(Screen.PrincipalScreen.Route) }) {
-                        Text(text = "Acceder")
-                    }
-                else
-                    Button(
-                        onClick = { navController.navigate(Screen.RegistroPerfilScreen.Route) }) {
-                        Text(text = "Vamos a crear tu perfil")
-                    }
+                if (navegacionViewModel.sincronizacionCliente) {
+                    if (navegacionViewModel.cliente.clienteId > 0)
+                        Button(
+                            onClick = { navController.navigate(Screen.PrincipalScreen.Route) }) {
+                            Text(text = "Acceder")
+                        }
+                    else
+                        Button(
+                            onClick = { navController.navigate(Screen.RegistroPerfilScreen.Route) }) {
+                            Text(text = "Vamos a crear tu perfil")
+                        }
+                }
             }
         }
     ) {
@@ -68,7 +70,6 @@ fun IntroScreen(
                 painter = painterResource(id = R.drawable.introbarbershop),
                 contentDescription = "Imagen Intro"
             )
-
         }
     }
 

@@ -19,7 +19,7 @@ data class Cita(
 data class CitaCompleta(
     val citaId: Int,
     val servicioId: Int,
-    val servicioNombre: String,
+    val servicioNombre: String?,
     val barberoId: Int,
     val clienteId: Int,
     val fecha: String,

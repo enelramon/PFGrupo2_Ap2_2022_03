@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import edu.ucne.appliedbarbershop.data.local.models.Barbero
+import edu.ucne.appliedbarbershop.data.local.models.Cita
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,5 +22,8 @@ interface BarberoDao {
     fun getAll(): Flow<List<Barbero>>
 
     @Query("Select * from Barberos where barberoId=:id")
-    suspend fun getById(id:Int): Barbero?
+    fun getById(id:Int): Flow<Barbero?>
+
+    @Query("Delete from barberos")
+    suspend fun truncateTable()
 }

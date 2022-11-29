@@ -17,11 +17,19 @@ class CitaRepository @Inject constructor(
         db.citaDao.delete(cita)
     }
 
-    fun getAll(): Flow<List<CitaCompleta>>{
+    suspend fun getAll(): Flow<List<CitaCompleta>>{
         return db.citaDao.getAll()
     }
 
-    suspend fun getById(id:Int): CitaCompleta? {
+    suspend fun getAllByClienteId(clienteId: Int): Flow<List<CitaCompleta>>{
+        return db.citaDao.getAllByClienteId(clienteId)
+    }
+
+    suspend fun getById(id:Int): Flow<CitaCompleta?> {
         return db.citaDao.getById(id)
+    }
+
+    suspend fun truncateTable() {
+        return db.barberoDao.truncateTable()
     }
 }

@@ -26,8 +26,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.ucne.appliedbarbershop.R
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
+import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
 import edu.ucne.appliedbarbershop.utils.Constantes
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 private class ItemNav(
@@ -40,16 +42,32 @@ private class ItemNav(
 @Composable
 fun PrincipalScreen(
     navController: NavController,
-    navegacionViewModel: NavegacionViewModel
+    navegacionViewModel: NavegacionViewModel,
+    drawerState: DrawerState,
+    scope: CoroutineScope
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
+    val localContext = LocalContext.current
+    Scaffold(
+        topBar = {
+            TopBar(
+                scope,
+                navegacionViewModel.selectedItem,
+                drawerState
+            )
+        }
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.introbarbershop),
-            contentDescription = "Imagen Intro"
-        )
+        it
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(end = 28.dp, start = 28.dp, bottom = 20.dp, top = 68.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.introbarbershop),
+                contentDescription = "Imagen Intro"
+            )
+        }
     }
 }

@@ -2,14 +2,8 @@ package edu.ucne.appliedbarbershop.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import edu.ucne.appliedbarbershop.data.local.dao.BarberoDao
-import edu.ucne.appliedbarbershop.data.local.dao.CitaDao
-import edu.ucne.appliedbarbershop.data.local.dao.ClienteDao
-import edu.ucne.appliedbarbershop.data.local.dao.ServicioDao
-import edu.ucne.appliedbarbershop.data.local.models.Barbero
-import edu.ucne.appliedbarbershop.data.local.models.Cliente
-import edu.ucne.appliedbarbershop.data.local.models.Servicio
-import edu.ucne.appliedbarbershop.data.local.models.Cita
+import edu.ucne.appliedbarbershop.data.local.dao.*
+import edu.ucne.appliedbarbershop.data.local.models.*
 
 @Database(
     entities = [
@@ -17,8 +11,10 @@ import edu.ucne.appliedbarbershop.data.local.models.Cita
         Cita::class,
         Cliente::class,
         Servicio::class,
+        Entorno::class,
+        Perfil::class
     ],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 
@@ -27,4 +23,6 @@ abstract class AppDataBase : RoomDatabase() {
     abstract val citaDao: CitaDao
     abstract val clienteDao: ClienteDao
     abstract val servicioDao: ServicioDao
+    abstract val entornoDao: EntornoDao
+    abstract val perfilDao: PerfilDao
 }

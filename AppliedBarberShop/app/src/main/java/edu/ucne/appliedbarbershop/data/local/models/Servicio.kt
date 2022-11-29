@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Servicios")
 data class Servicio(
     @PrimaryKey(autoGenerate = true)
-    val servicioId: Int,
+    var servicioId: Int,
     val nombre: String,
     val imagen: String?,
     val usuarioCreacionId: Int,

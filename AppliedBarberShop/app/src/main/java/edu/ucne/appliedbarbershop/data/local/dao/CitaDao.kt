@@ -36,9 +36,40 @@ interface CitaDao {
         "from Citas as c " +
         "left join servicios as s on c.servicioId = s.servicioId " +
         "left join barberos as b on b.barberoId = c.barberoId " +
-        "left join clientes as cl on cl.clienteId = c.clienteId "
+        "left join clientes as cl on cl.clienteId = c.clienteId " +
+        "where c.status > 0 " +
+        "order by c.fecha desc"
     )
     fun getAll(): Flow<List<CitaCompleta>>
+
+    @Query(
+        "Select " +
+                "c.citaId, " +
+                "c.servicioId, " +
+                "c.barberoId, " +
+                "c.clienteId, " +
+                "c.fecha, " +
+                "c.mensaje, " +
+                "c.usuarioCreacionId, " +
+                "c.usuarioModificacionId, " +
+                "c.status, " +
+                "b.Nombre as barberoNombre, " +
+                "b.Apellido as barberoApellido, " +
+                "b.Celular as barberoCelular, " +
+                "b.Imagen as barberoImagen, " +
+                "cl.Nombre as clienteNombre, " +
+                "cl.Apellido as clienteApellido, " +
+                "cl.Celular as clienteCelular, " +
+                "cl.Imagen as clienteImagen, " +
+                "s.nombre as servicioNombre " +
+                "from Citas as c " +
+                "left join servicios as s on c.servicioId = s.servicioId " +
+                "left join barberos as b on b.barberoId = c.barberoId " +
+                "left join clientes as cl on cl.clienteId = c.clienteId " +
+                "where cl.clienteId = :clienteId and c.status > 0 " +
+                "order by c.fecha desc"
+    )
+    fun getAllByClienteId(clienteId: Int): Flow<List<CitaCompleta>>
 
     @Query(
         "Select " +
@@ -64,7 +95,11 @@ interface CitaDao {
         "left join servicios as s on c.servicioId = s.servicioId " +
         "left join barberos as b on b.barberoId = c.barberoId " +
         "left join clientes as cl on cl.clienteId = c.clienteId " +
-        "where citaId=:id"
+        "where citaId=:id and c.status > 0 " +
+        "order by c.fecha desc"
     )
-    suspend fun getById(id: Int): CitaCompleta?
+    fun getById(id: Int): Flow<CitaCompleta?>
+
+    @Query("Delete from citas")
+    suspend fun truncateTable()
 }

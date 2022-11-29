@@ -1,6 +1,7 @@
 package edu.ucne.appliedbarbershop.data.local.dao
 
 import androidx.room.*
+import edu.ucne.appliedbarbershop.data.local.models.Cita
 import edu.ucne.appliedbarbershop.data.local.models.Cliente
 import kotlinx.coroutines.flow.Flow
 
@@ -16,5 +17,8 @@ interface ClienteDao {
     fun getAll(): Flow<List<Cliente>>
 
     @Query("Select * from Clientes where clienteId=:id")
-    suspend fun getById(id:Int): Cliente?
+    fun getById(id:Int): Flow<Cliente?>
+
+    @Query("Delete from clientes")
+    suspend fun truncateTable()
 }

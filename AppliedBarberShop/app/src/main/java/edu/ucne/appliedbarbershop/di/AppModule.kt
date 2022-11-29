@@ -10,10 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import edu.ucne.appliedbarbershop.data.local.AppDataBase
-import edu.ucne.appliedbarbershop.data.local.repository.BarberoRepository
-import edu.ucne.appliedbarbershop.data.local.repository.CitaRepository
-import edu.ucne.appliedbarbershop.data.local.repository.ClienteRepository
-import edu.ucne.appliedbarbershop.data.local.repository.ServicioRepository
+import edu.ucne.appliedbarbershop.data.local.repository.*
 import edu.ucne.appliedbarbershop.data.remote.api_dao.BarberoApi
 import edu.ucne.appliedbarbershop.data.remote.api_dao.CitaApi
 import edu.ucne.appliedbarbershop.data.remote.api_dao.ClienteApi
@@ -98,7 +95,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun ProvidePerfilRepository(appDataBase: AppDataBase): ClienteRepository {
+    fun ProvideClienteRepository(appDataBase: AppDataBase): ClienteRepository {
         return ClienteRepository(appDataBase)
     }
 
@@ -106,5 +103,17 @@ object AppModule {
     @Provides
     fun ProvideServicioRepository(appDataBase: AppDataBase): ServicioRepository {
         return ServicioRepository(appDataBase)
+    }
+
+    @Singleton
+    @Provides
+    fun ProvideEntornoRepository(appDataBase: AppDataBase): EntornoRepository {
+        return EntornoRepository(appDataBase)
+    }
+
+    @Singleton
+    @Provides
+    fun ProvidePerfilRepository(appDataBase: AppDataBase): PerfilRepository {
+        return PerfilRepository(appDataBase)
     }
 }

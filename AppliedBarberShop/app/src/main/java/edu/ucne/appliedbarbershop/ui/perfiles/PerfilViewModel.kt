@@ -10,15 +10,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.appliedbarbershop.data.local.models.Cliente
+import edu.ucne.appliedbarbershop.data.local.models.Entorno
+import edu.ucne.appliedbarbershop.data.local.models.Perfil
 import edu.ucne.appliedbarbershop.data.local.repository.ClienteRepository
+import edu.ucne.appliedbarbershop.data.local.repository.EntornoRepository
+import edu.ucne.appliedbarbershop.data.local.repository.PerfilRepository
 import edu.ucne.appliedbarbershop.data.remote.api_repository.ClienteApiRepository
 import edu.ucne.appliedbarbershop.data.remote.dto.ClienteDto
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.utils.Screen
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.getAndUpdate
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.time.LocalDateTime
@@ -27,7 +28,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ClienteViewModel @Inject constructor(
     private val api: ClienteApiRepository,
-    private val clienteRepository: ClienteRepository
+    private val clienteRepository: ClienteRepository,
+    private val entornoRepository: EntornoRepository,
+    private val perfilRepository: PerfilRepository
 ) : ViewModel() {
 
     var clienteId by mutableStateOf("0")
@@ -37,6 +40,12 @@ class ClienteViewModel @Inject constructor(
     var fechaNacimiento by mutableStateOf("")
     var imagen by mutableStateOf("")
     var status by mutableStateOf("1")
+
+    var openDialogCambiarPerfil by mutableStateOf(false)
+
+    fun onOpenDialogCambiarPerfil(t: Boolean) {
+        openDialogCambiarPerfil = t
+    }
 
     fun onClienteIdChange(t: String) {
         clienteId = t
@@ -91,7 +100,7 @@ class ClienteViewModel @Inject constructor(
             if (
                 intentoGuardar.clienteId > 0
             ) {
-                var clienteDb = Cliente(
+                val clienteDb = Cliente(
                     clienteId = intentoGuardar.clienteId,
                     nombre = intentoGuardar.nombre,
                     apellido = intentoGuardar.apellido,
@@ -101,8 +110,16 @@ class ClienteViewModel @Inject constructor(
                     status = intentoGuardar.status.toInt()
                 )
                 clienteRepository.insert(clienteDb)
+                perfilRepository.insert(
+                    Perfil(
+                        perfilId = clienteDb.clienteId
+                    )
+                )
+                navegacionViewModel.cliente = clienteDb
+
+                cambiarDePerfil(clienteDb.clienteId, navegacionViewModel)
+
                 if (true) {
-                    navegacionViewModel.cliente = clienteDb
                     navController.navigate(Screen.ConfirmaRegistroPerfilScreen.Route)
                 } else {
                     Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
@@ -111,6 +128,25 @@ class ClienteViewModel @Inject constructor(
                 Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
             }
             enableSubmit = true
+        }
+    }
+
+    fun cambiarDePerfil(id: Int, navegacionViewModel: NavegacionViewModel) {
+        viewModelScope.launch {
+            entornoRepository.getEntorno().collect {
+                if (it != null) {
+                    entornoRepository.insert(
+                        Entorno(
+                            entornoId = it.entornoId,
+                            codigoBarberia = it.codigoBarberia,
+                            clienteIdSeleccionado = id,
+                            isBarberoAutenticado = false
+                        )
+                    )
+                }
+                navegacionViewModel.isBarberoAutenticado = false
+                navegacionViewModel.sincronizarEntorno()
+            }
         }
     }
 }
