@@ -136,6 +136,13 @@ class ClienteViewModel @Inject constructor(
         }
     }
 
+
+    fun delete(id: String, cliente: ClienteDto) {
+        viewModelScope.launch {
+            api.updateCliente(id, cliente)
+        }
+    }
+
     private fun validar(): String{
 
         var msg = ""
