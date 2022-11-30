@@ -363,9 +363,9 @@ class CitaViewModel @Inject constructor(
         }
     }
 
-    fun delete(cita: CitaDto) {
+    fun deleteCita(cita: CitaDto) {
         viewModelScope.launch {
-            api.deleteCita(cita.citaId.toString())
+            api.updateCita(cita.citaId.toString(), cita)
         }
     }
 
