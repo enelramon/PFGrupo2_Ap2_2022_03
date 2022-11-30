@@ -7,7 +7,6 @@ namespace ApiBarberShop.Models;
 
 public partial class Cita
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
     public int CitaId { get; set; }
 
@@ -31,12 +30,12 @@ public partial class Cita
 
     public int Status { get; set; }
 
-    [ForeignKey(nameof(BarberoId))]
+    /*[ForeignKey(nameof(BarberoId))]
     public virtual Barbero? Barbero { get; set; }
 
     [ForeignKey(nameof(ClienteId))]
     public virtual Cliente? Cliente { get; set; }
 
     [ForeignKey(nameof(ServicioId))]
-    public virtual Servicio? Servicio { get; set; }
+    public virtual Servicio? Servicio { get; set; }*/
 }

@@ -17,6 +17,11 @@ namespace ApiBarberShop.Migrations
                 {
                     BarberoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Celular = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaNacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Imagen = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false),
                     FechaModificacion = table.Column<DateTime>(type: "datetime", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false)
@@ -24,6 +29,28 @@ namespace ApiBarberShop.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Barberos", x => x.BarberoId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Citas",
+                columns: table => new
+                {
+                    CitaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ServicioId = table.Column<int>(type: "int", nullable: false),
+                    BarberoId = table.Column<int>(type: "int", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Mensaje = table.Column<string>(type: "nchar(200)", fixedLength: true, maxLength: 200, nullable: true),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false),
+                    FechaModificacion = table.Column<DateTime>(type: "datetime", nullable: true),
+                    UsuarioCreacionId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioModificacionId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Citas", x => x.CitaId);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,68 +91,16 @@ namespace ApiBarberShop.Migrations
                 {
                     table.PrimaryKey("PK_Servicios", x => x.ServicioId);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Citas",
-                columns: table => new
-                {
-                    CitaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ServicioId = table.Column<int>(type: "int", nullable: false),
-                    BarberoId = table.Column<int>(type: "int", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Mensaje = table.Column<string>(type: "nchar(200)", fixedLength: true, maxLength: 200, nullable: true),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false),
-                    FechaModificacion = table.Column<DateTime>(type: "datetime", nullable: true),
-                    UsuarioCreacionId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioModificacionId = table.Column<int>(type: "int", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Citas", x => x.CitaId);
-                    table.ForeignKey(
-                        name: "FK_Citas_Barberos",
-                        column: x => x.BarberoId,
-                        principalTable: "Barberos",
-                        principalColumn: "BarberoId");
-                    table.ForeignKey(
-                        name: "FK_Citas_Clientes",
-                        column: x => x.ClienteId,
-                        principalTable: "Clientes",
-                        principalColumn: "ClienteId");
-                    table.ForeignKey(
-                        name: "FK_Citas_Servicios",
-                        column: x => x.ServicioId,
-                        principalTable: "Servicios",
-                        principalColumn: "ServicioId");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Citas_BarberoId",
-                table: "Citas",
-                column: "BarberoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Citas_ClienteId",
-                table: "Citas",
-                column: "ClienteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Citas_ServicioId",
-                table: "Citas",
-                column: "ServicioId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Citas");
+                name: "Barberos");
 
             migrationBuilder.DropTable(
-                name: "Barberos");
+                name: "Citas");
 
             migrationBuilder.DropTable(
                 name: "Clientes");

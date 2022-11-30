@@ -62,5 +62,4 @@ class BarberoApiRepository @Inject constructor(
             return barbero
         }
     }
-
 }

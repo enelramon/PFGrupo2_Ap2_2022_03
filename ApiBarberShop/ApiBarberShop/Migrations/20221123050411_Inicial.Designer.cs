@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiBarberShop.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20221118034506_Inicial")]
+    [Migration("20221123050411_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -33,11 +33,26 @@ namespace ApiBarberShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BarberoId"));
 
+                    b.Property<string>("Apellido")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Celular")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime");
+
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Imagen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -88,12 +103,6 @@ namespace ApiBarberShop.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CitaId");
-
-                    b.HasIndex("BarberoId");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("ServicioId");
 
                     b.ToTable("Citas");
                 });
@@ -182,48 +191,6 @@ namespace ApiBarberShop.Migrations
                     b.HasKey("ServicioId");
 
                     b.ToTable("Servicios");
-                });
-
-            modelBuilder.Entity("ApiBarberShop.Models.Cita", b =>
-                {
-                    b.HasOne("ApiBarberShop.Models.Barbero", "Barbero")
-                        .WithMany("Cita")
-                        .HasForeignKey("BarberoId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Citas_Barberos");
-
-                    b.HasOne("ApiBarberShop.Models.Cliente", "Cliente")
-                        .WithMany("Cita")
-                        .HasForeignKey("ClienteId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Citas_Clientes");
-
-                    b.HasOne("ApiBarberShop.Models.Servicio", "Servicio")
-                        .WithMany("Cita")
-                        .HasForeignKey("ServicioId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Citas_Servicios");
-
-                    b.Navigation("Barbero");
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Servicio");
-                });
-
-            modelBuilder.Entity("ApiBarberShop.Models.Barbero", b =>
-                {
-                    b.Navigation("Cita");
-                });
-
-            modelBuilder.Entity("ApiBarberShop.Models.Cliente", b =>
-                {
-                    b.Navigation("Cita");
-                });
-
-            modelBuilder.Entity("ApiBarberShop.Models.Servicio", b =>
-                {
-                    b.Navigation("Cita");
                 });
 #pragma warning restore 612, 618
         }
