@@ -289,8 +289,9 @@ class CitaViewModel @Inject constructor(
                     status = status
                 )
             )
+
             if (
-                intentoGuardar.citaId > 0
+                intentoGuardar.citaId > 0 && validacion()
             ) {
                 var citaDb = Cita(
                     citaId = intentoGuardar.citaId.toInt(),
@@ -303,6 +304,7 @@ class CitaViewModel @Inject constructor(
                     usuarioModificacionId = intentoGuardar.usuarioModificacionId,
                     status = intentoGuardar.status
                 )
+
                 citaRepository.insert(citaDb)
 
                 if (true) {
@@ -313,10 +315,34 @@ class CitaViewModel @Inject constructor(
                     Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(localContext, msg, Toast.LENGTH_SHORT).show()
             }
             enableSubmit = true
         }
+    }
+    var msg = ""
+
+    fun validacion(): Boolean {
+
+        val delim = "-"
+        var fechaActual = LocalDateTime.now()
+        val fechaElegida = fch.split(delim)
+
+        if(fechaElegida[0].toInt() < fechaActual.year.toString().toInt())
+        {
+            msg = "No se pueden agendar citas con fechas menor a la de hoy"
+            return false
+        }else if(fechaElegida[1].toInt() < fechaActual.monthValue.toString().toInt())
+        {
+            msg = "No se pueden agendar citas con fechas menor a la de hoy"
+            return false
+        }else if(fechaElegida[2].toInt() < fechaActual.dayOfMonth.toString().toInt())
+        {
+            msg = "No se pueden agendar citas con fechas menor a la de hoy"
+            return false
+        }
+
+        return true
     }
 
     fun update(id: String, cita: CitaDto) {
