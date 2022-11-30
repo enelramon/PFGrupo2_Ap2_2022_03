@@ -262,7 +262,7 @@ private fun DrawerContent(
     navegacionViewModel: NavegacionViewModel
 ) {
     val activity = (LocalContext.current as? Activity)
-    var nombreCompleto = navegacionViewModel.cliente.nombre.replace("\\s".toRegex(), "") + " " + navegacionViewModel.cliente.apellido.replace("\\s".toRegex(), "")
+    val nombreCompleto = navegacionViewModel.cliente.nombre.replace("\\s".toRegex(), "") + " " + navegacionViewModel.cliente.apellido.replace("\\s".toRegex(), "")
 
     ModalDrawerSheet {
         Spacer(Modifier.height(50.dp))
