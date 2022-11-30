@@ -48,9 +48,6 @@ class ServicioViewModel @Inject constructor(
         imagen = t
     }
 
-    var isErrorNombre = false
-    var msgNombre = ""
-
     fun save(
         localContext: Context,
         navController: NavController,
@@ -87,7 +84,7 @@ class ServicioViewModel @Inject constructor(
                 )
             )
             if (
-                intentoGuardar.servicioId > 0
+                intentoGuardar.servicioId > 0 && validacion()
             ) {
                 var servicioDb = Servicio(
                     servicioId = intentoGuardar.servicioId,
@@ -107,7 +104,7 @@ class ServicioViewModel @Inject constructor(
                     Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(localContext, msg, Toast.LENGTH_SHORT).show()
             }
             enableSubmit = true
         }
@@ -139,21 +136,20 @@ class ServicioViewModel @Inject constructor(
         }
     }
 
-    fun validar(): Boolean {
+    var msg = ""
+
+    fun validacion(): Boolean {
         if (nombre.isBlank()) {
-            isErrorNombre = true
-            msgNombre = "*Campo Obligatorio*"
+            msg = "*Campo Obligatorio*"
+            return false
         } else if (nombre.isDigitsOnly()) {
-            isErrorNombre = true
-            msgNombre = "*Descripcion invalidad(Solo puede contener letras)*"
+            msg = "*Descripcion invalidad(Solo puede contener letras)*"
+            return false
         } else if (nombre.length in 1..4) {
-            isErrorNombre = true
-            msgNombre = "*La descripcion debe contener minimo(5) Caracteres*"
-        } else {
-            isErrorNombre = false
-            msgNombre = ""
+            msg = "*La descripcion debe contener minimo(5) Caracteres*"
+            return false
         }
 
-        return isErrorNombre
+        return true
     }
 }
