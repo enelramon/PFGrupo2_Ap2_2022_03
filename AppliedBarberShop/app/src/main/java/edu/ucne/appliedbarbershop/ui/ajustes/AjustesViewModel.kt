@@ -48,10 +48,22 @@ class AjustesViewModel @Inject constructor(
                         navegacionViewModel.sincronizarEntorno()
                         navController.navigate(Screen.PrincipalScreen.Route)
                     } else {
-                        Toast.makeText(localContext, "Código inválido!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(localContext, validar(), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
+
+    private fun validar(): String{
+
+       val msg = if (codigoBarbero.isEmpty()){
+            "Se debe llenar el campo Código!"
+       } else{
+            "Código inválido!"
+       }
+
+        return  msg
+    }
+
 }
