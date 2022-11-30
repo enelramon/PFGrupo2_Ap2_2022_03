@@ -54,6 +54,8 @@ class NavegacionViewModel @Inject constructor(
     var sincronizacionCitas by mutableStateOf(false)
     var sincronizacionFinalizada by mutableStateOf(true)
 
+
+
     var cliente by mutableStateOf(
         Cliente(
             clienteId = 0,
