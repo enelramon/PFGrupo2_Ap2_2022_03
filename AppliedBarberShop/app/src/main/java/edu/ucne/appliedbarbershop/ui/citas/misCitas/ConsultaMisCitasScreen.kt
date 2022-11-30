@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import edu.ucne.appliedbarbershop.data.remote.dto.CitaDto
 import edu.ucne.appliedbarbershop.ui.citas.CitaViewModel
 import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
@@ -81,13 +82,27 @@ fun ConsultaMisCitasScreen(
                         CardComponent(
                             titulo = (it.barberoNombre + " " + it.barberoApellido) ?: "",
                             subtitulo = it.barberoCelular ?: "",
-                            cuerpo = it.fecha + "\n" + it.servicioNombre,
+                            cuerpo = separarFecha(it.fecha) + "\n" + "Servicio: " + it.servicioNombre,
                             status = it.status,
                             mensaje = it.mensaje,
                             btn1Nombre = "Editar",
                             btn2Nombre = "Eliminar",
                             btn1OnClick = { navController.navigate(Screen.RegistroCita_BarberoScreen.Route + "/" + it.citaId.toString()) },
-                            btn2OnClick = {}
+                            btn2OnClick = {viewModel.deleteCita(
+                                cita = CitaDto(
+                                    it.citaId,
+                                    it.servicioId,
+                                    it.barberoId,
+                                    it.clienteId,
+                                    it.fecha,
+                                    it.mensaje,
+                                    LocalDateTime.now().toString(), // No se debe modificar
+                                    LocalDateTime.now().toString(),
+                                    it.usuarioCreacionId,
+                                    it.usuarioModificacionId,
+                                    0
+                                )
+                            )}
                         )
                     else
                         CardComponent(
@@ -101,4 +116,24 @@ fun ConsultaMisCitasScreen(
             }
         }
     }
+}
+
+fun separarFecha(fecha: String) : String{
+    val delim = "T"
+    val palabras = fecha.split(delim)
+    var aux = ""
+
+    aux = "Fecha: " + palabras[0] + "\n" + separarHora(palabras[1])
+
+    return aux
+}
+
+fun separarHora(hora: String) : String{
+    val delim = ":"
+    val tiempo = hora.split(delim)
+    var aux = ""
+
+    aux = "Hora: " + tiempo[0] + ":" + tiempo[1]
+
+    return aux
 }
