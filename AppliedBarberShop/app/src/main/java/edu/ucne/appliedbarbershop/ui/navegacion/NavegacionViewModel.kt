@@ -95,25 +95,29 @@ class NavegacionViewModel @Inject constructor(
                     )
                 }
 
-                val q = async(start = CoroutineStart.LAZY) { sincronizarClientes() }
-                val w = async(start = CoroutineStart.LAZY) { sincronizarServicios() }
-                val e = async(start = CoroutineStart.LAZY) { sincronizarBarberos() }
-                val r = async(start = CoroutineStart.LAZY) { sincronizarCitas(perfilId) }
-                val t = async(start = CoroutineStart.LAZY) { sincronizarPerfiles() }
-                val y = async(start = CoroutineStart.LAZY) { sincronizarCitasApi() }
-                val u = async(start = CoroutineStart.LAZY) { sincronizarClientesApi() }
-                val i = async(start = CoroutineStart.LAZY) { sincronizarServiciosApi() }
-                val o = async(start = CoroutineStart.LAZY) { sincronizarBarberosApi() }
+                val q = async { sincronizarClientes() }
+                val w = async { sincronizarServicios() }
+                val e = async { sincronizarBarberos() }
+                val r = async { sincronizarCitas(perfilId) }
+                val t = async { sincronizarPerfiles() }
+                val y = async { sincronizarCitasApi() }
+                val u = async { sincronizarClientesApi() }
+                val i = async { sincronizarServiciosApi() }
+                val o = async { sincronizarBarberosApi() }
 
                 q.await()
                 w.await()
                 e.await()
-                r.start()
-                t.start()
-                y.start()
-                u.start()
-                i.start()
-                o.start()
+                if (q.isCompleted &&
+                    w.isCompleted &&
+                    e.isCompleted) {
+                    r.start()
+                    t.start()
+                    y.start()
+                    u.start()
+                    i.start()
+                    o.start()
+                }
 
                 generarNav()
             }

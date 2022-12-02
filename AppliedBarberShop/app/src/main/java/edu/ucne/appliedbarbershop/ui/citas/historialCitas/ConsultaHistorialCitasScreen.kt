@@ -21,6 +21,7 @@ import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
 import edu.ucne.appliedbarbershop.utils.Components.CardComponent
 import edu.ucne.appliedbarbershop.utils.Screen
+import edu.ucne.appliedbarbershop.utils.validString
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,9 +53,9 @@ fun ConsultaHistorialCitasScreen(
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(navegacionViewModel.todasCitas) {
                     CardComponent(
-                        titulo = (it.clienteNombre + " " + it.clienteApellido) ?: "",
+                        titulo = (validString(it.clienteNombre) + " " + validString(it.clienteApellido)) ?: "",
                         subtitulo = it.clienteCelular ?: "",
-                        cuerpo = it.fecha + "\n" + it.servicioNombre,
+                        cuerpo = separarFecha(it.fecha) + "\n" + "Servicio: " + it.servicioNombre,
                         status = it.status,
                         mensaje = it.mensaje
                     )

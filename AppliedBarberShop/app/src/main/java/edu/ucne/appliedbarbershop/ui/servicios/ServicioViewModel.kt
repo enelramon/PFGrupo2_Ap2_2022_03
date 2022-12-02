@@ -23,6 +23,7 @@ import edu.ucne.appliedbarbershop.utils.Screen
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okio.IOException
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,7 +37,9 @@ class ServicioViewModel @Inject constructor(
     var imagen by mutableStateOf("")
     var usuarioCreacionId by mutableStateOf(0)
     var usuarioModificacionId by mutableStateOf(0)
-    var status by mutableStateOf(0)
+    var fechaCreacion by mutableStateOf("")
+    var fechaModificacion by mutableStateOf("")
+    var status by mutableStateOf(1)
 
     var enableSubmit by mutableStateOf(true)
 
@@ -48,6 +51,21 @@ class ServicioViewModel @Inject constructor(
         imagen = t
     }
 
+    fun cargarServicio(id: Int, navegacionViewModel: NavegacionViewModel) {
+        viewModelScope.launch {
+            servicioRepository.getById(id).collect { c ->
+                if (c != null) {
+                    servicioId = c.servicioId
+                    nombre = c.nombre
+                    imagen = c.imagen ?: ""
+                    usuarioCreacionId = c.usuarioCreacionId
+                    usuarioModificacionId = c.usuarioModificacionId ?: 0
+                    status = c.status
+                }
+            }
+        }
+    }
+
     fun save(
         localContext: Context,
         navController: NavController,
@@ -56,52 +74,65 @@ class ServicioViewModel @Inject constructor(
     ) {
         enableSubmit = false
 
-        if (servicioId == 0)
+        if (servicioId == 0) {
             usuarioCreacionId = navegacionViewModel.cliente.clienteId
+            fechaCreacion = LocalDateTime.now().toString()
+        }
 
+        fechaModificacion = LocalDateTime.now().toString()
         usuarioModificacionId = navegacionViewModel.cliente.clienteId
 
+
         viewModelScope.launch {
-            val intentoGuardar = if (servicioId == 0) api.insertServicio(
-                ServicioDto(
-                    servicioId = servicioId,
-                    nombre = nombre,
-                    imagen = imagen,
-                    usuarioCreacionId = usuarioCreacionId,
-                    usuarioModificacionId = usuarioModificacionId,
-                    status = status
-                )
+            if (validacion()) {
+                val intentoGuardar = if (servicioId == 0) api.insertServicio(
+                    ServicioDto(
+                        servicioId = servicioId,
+                        nombre = nombre,
+                        imagen = imagen,
+                        usuarioCreacionId = usuarioCreacionId,
+                        usuarioModificacionId = usuarioModificacionId,
+                        fechaCreacion = fechaCreacion,
+                        fechaModificacion = fechaModificacion,
+                        status = status
+                    )
 
-            ) else api.updateServicio(
-                servicioId.toString(),
-                ServicioDto(
-                    servicioId = servicioId,
-                    nombre = nombre,
-                    imagen = imagen,
-                    usuarioCreacionId = usuarioCreacionId,
-                    usuarioModificacionId = usuarioModificacionId,
-                    status = status
+                ) else api.updateServicio(
+                    servicioId.toString(),
+                    ServicioDto(
+                        servicioId = servicioId,
+                        nombre = nombre,
+                        imagen = imagen,
+                        usuarioCreacionId = usuarioCreacionId,
+                        usuarioModificacionId = usuarioModificacionId,
+                        fechaCreacion = fechaCreacion,
+                        fechaModificacion = fechaModificacion,
+                        status = status
+                    )
                 )
-            )
-            if (
-                intentoGuardar.servicioId > 0 && validacion()
-            ) {
-                var servicioDb = Servicio(
-                    servicioId = intentoGuardar.servicioId,
-                    nombre = intentoGuardar.nombre,
-                    imagen = intentoGuardar.imagen,
-                    usuarioCreacionId = intentoGuardar.usuarioCreacionId,
-                    usuarioModificacionId = intentoGuardar.usuarioModificacionId,
-                    status = intentoGuardar.status
-                )
-                servicioRepository.insert(servicioDb)
+                if (
+                    intentoGuardar.servicioId > 0
+                ) {
+                    var servicioDb = Servicio(
+                        servicioId = intentoGuardar.servicioId,
+                        nombre = intentoGuardar.nombre,
+                        imagen = intentoGuardar.imagen,
+                        usuarioCreacionId = intentoGuardar.usuarioCreacionId,
+                        usuarioModificacionId = intentoGuardar.usuarioModificacionId,
+                        status = intentoGuardar.status
+                    )
+                    servicioRepository.insert(servicioDb)
 
-                if (true) {
-                    navegacionViewModel.sincronizarServiciosApi()
-                    if (salirAlTerminar)
-                        navController.navigate(Screen.ConsultaServiciosScreen.Route)
+                    if (true) {
+                        navegacionViewModel.sincronizarServiciosApi()
+                        if (salirAlTerminar)
+                            navController.navigate(Screen.ConsultaServiciosScreen.Route)
+                    } else {
+                        Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 } else {
-                    Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(localContext, msg, Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(localContext, msg, Toast.LENGTH_SHORT).show()
@@ -143,7 +174,7 @@ class ServicioViewModel @Inject constructor(
             msg = "*Campo Obligatorio*"
             return false
         } else if (nombre.isDigitsOnly()) {
-            msg = "*Descripcion invalidad(Solo puede contener letras)*"
+            msg = "*Descripcion invalida (Solo puede contener letras)*"
             return false
         } else if (nombre.length in 1..4) {
             msg = "*La descripcion debe contener minimo(5) Caracteres*"

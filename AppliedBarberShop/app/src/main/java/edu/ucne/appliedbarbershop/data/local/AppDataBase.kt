@@ -14,7 +14,7 @@ import edu.ucne.appliedbarbershop.data.local.models.*
         Entorno::class,
         Perfil::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

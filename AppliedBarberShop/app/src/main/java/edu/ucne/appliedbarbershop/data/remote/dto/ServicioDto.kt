@@ -9,5 +9,7 @@ data class ServicioDto(
     val imagen: String?,
     val usuarioCreacionId: Int,
     val usuarioModificacionId: Int?,
+    val fechaCreacion: String,
+    val fechaModificacion: String?,
     val status: Int
 )

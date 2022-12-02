@@ -28,6 +28,7 @@ import edu.ucne.appliedbarbershop.ui.navegacion.NavegacionViewModel
 import edu.ucne.appliedbarbershop.ui.navegacion.TopBar
 import edu.ucne.appliedbarbershop.utils.Components.CardComponent
 import edu.ucne.appliedbarbershop.utils.Screen
+import edu.ucne.appliedbarbershop.utils.validString
 import kotlinx.coroutines.CoroutineScope
 import java.time.LocalDateTime
 
@@ -80,7 +81,7 @@ fun ConsultaMisCitasScreen(
 //                    Text(text = "year: " + localDateTime.year.toString())
                     if (it.status == 1 || it.status == 3)
                         CardComponent(
-                            titulo = (it.barberoNombre + " " + it.barberoApellido) ?: "",
+                            titulo = (validString(it.barberoNombre) + " " + validString(it.barberoApellido)) ?: "",
                             subtitulo = it.barberoCelular ?: "",
                             cuerpo = separarFecha(it.fecha) + "\n" + "Servicio: " + it.servicioNombre,
                             status = it.status,
@@ -108,7 +109,7 @@ fun ConsultaMisCitasScreen(
                         CardComponent(
                             titulo = (it.barberoNombre + " " + it.barberoApellido) ?: "",
                             subtitulo = it.barberoCelular ?: "",
-                            cuerpo = it.fecha,
+                            cuerpo = separarFecha(it.fecha) + "\n" + "Servicio: " + it.servicioNombre,
                             status = it.status,
                             mensaje = it.mensaje
                         )

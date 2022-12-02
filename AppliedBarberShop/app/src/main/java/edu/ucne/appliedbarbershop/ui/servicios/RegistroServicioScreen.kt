@@ -31,6 +31,9 @@ fun RegistroServicioScreen(
     drawerState: DrawerState,
     scope: CoroutineScope
 ) {
+    if (id > 0)
+        viewModel.cargarServicio(id, navegacionViewModel)
+
     val localContext = LocalContext.current
     Scaffold(
         topBar = {

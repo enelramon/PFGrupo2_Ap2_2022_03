@@ -21,6 +21,10 @@ class ServicioRepository @Inject constructor(
         return db.servicioDao.getAll()
     }
 
+    suspend fun getById(id: Int): Flow<Servicio?> {
+        return db.servicioDao.getById(id)
+    }
+
     suspend fun truncateTable() {
         return db.barberoDao.truncateTable()
     }

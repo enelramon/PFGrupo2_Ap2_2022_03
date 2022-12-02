@@ -1,6 +1,6 @@
 package edu.ucne.appliedbarbershop.utils
 
-public class Validator {
+sealed class Validator {
 
     fun isNumber(aux: String): Boolean {
         return try {
@@ -20,5 +20,8 @@ public class Validator {
             true
         }
     }
+}
 
+fun validString(s: String?): String? {
+    return s?.replace("\\s".toRegex(), "")
 }

@@ -253,7 +253,7 @@ class CitaViewModel @Inject constructor(
 
         servicioId = servicio.servicioId
         barberoId = barbero.barberoId
-        clienteId = navegacionViewModel.cliente.clienteId
+        if (citaId == 0) clienteId = navegacionViewModel.cliente.clienteId
         fecha = fch + "T" + hra
         status = statusCita
 
@@ -263,56 +263,61 @@ class CitaViewModel @Inject constructor(
         usuarioModificacionId = navegacionViewModel.cliente.clienteId
 
         viewModelScope.launch {
-            val intentoGuardar = if (citaId == 0) api.insertCita(
-                CitaDto(
-                    citaId = citaId.toInt(),
-                    servicioId = servicioId,
-                    barberoId = barberoId,
-                    clienteId = clienteId,
-                    fecha = fecha,
-                    mensaje = mensaje,
-                    usuarioCreacionId = usuarioCreacionId,
-                    usuarioModificacionId = usuarioModificacionId,
-                    status = status
-                )
-            ) else api.updateCita(
-                citaId.toString(),
-                CitaDto(
-                    citaId = citaId.toInt(),
-                    servicioId = servicioId,
-                    barberoId = barberoId,
-                    clienteId = clienteId,
-                    fecha = fecha,
-                    mensaje = mensaje,
-                    usuarioCreacionId = usuarioCreacionId,
-                    usuarioModificacionId = usuarioModificacionId,
-                    status = status
-                )
-            )
-
-            if (
-                intentoGuardar.citaId > 0 && validacion()
-            ) {
-                var citaDb = Cita(
-                    citaId = intentoGuardar.citaId.toInt(),
-                    servicioId = intentoGuardar.servicioId,
-                    barberoId = intentoGuardar.barberoId,
-                    clienteId = intentoGuardar.clienteId,
-                    fecha = intentoGuardar.fecha,
-                    mensaje = intentoGuardar.mensaje,
-                    usuarioCreacionId = intentoGuardar.usuarioCreacionId,
-                    usuarioModificacionId = intentoGuardar.usuarioModificacionId,
-                    status = intentoGuardar.status
+            if (validacion()) {
+                val intentoGuardar = if (citaId == 0) api.insertCita(
+                    CitaDto(
+                        citaId = citaId.toInt(),
+                        servicioId = servicioId,
+                        barberoId = barberoId,
+                        clienteId = clienteId,
+                        fecha = fecha,
+                        mensaje = mensaje,
+                        usuarioCreacionId = usuarioCreacionId,
+                        usuarioModificacionId = usuarioModificacionId,
+                        status = status
+                    )
+                ) else api.updateCita(
+                    citaId.toString(),
+                    CitaDto(
+                        citaId = citaId.toInt(),
+                        servicioId = servicioId,
+                        barberoId = barberoId,
+                        clienteId = clienteId,
+                        fecha = fecha,
+                        mensaje = mensaje,
+                        usuarioCreacionId = usuarioCreacionId,
+                        usuarioModificacionId = usuarioModificacionId,
+                        status = status
+                    )
                 )
 
-                citaRepository.insert(citaDb)
+                if (
+                    intentoGuardar.citaId > 0
+                ) {
+                    var citaDb = Cita(
+                        citaId = intentoGuardar.citaId.toInt(),
+                        servicioId = intentoGuardar.servicioId,
+                        barberoId = intentoGuardar.barberoId,
+                        clienteId = intentoGuardar.clienteId,
+                        fecha = intentoGuardar.fecha,
+                        mensaje = intentoGuardar.mensaje,
+                        usuarioCreacionId = intentoGuardar.usuarioCreacionId,
+                        usuarioModificacionId = intentoGuardar.usuarioModificacionId,
+                        status = intentoGuardar.status
+                    )
 
-                if (true) {
-                    navegacionViewModel.sincronizarCitasApi()
-                    if (salirAlTerminar)
-                        navController.navigate(Screen.ConfirmaRegistroCitaScreen.Route)
+                    citaRepository.insert(citaDb)
+
+                    if (true) {
+                        navegacionViewModel.sincronizarCitasApi()
+                        if (salirAlTerminar)
+                            navController.navigate(Screen.ConfirmaRegistroCitaScreen.Route)
+                    } else {
+                        Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 } else {
-                    Toast.makeText(localContext, "No se pudo guardar!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(localContext, msg, Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(localContext, msg, Toast.LENGTH_SHORT).show()
@@ -320,24 +325,15 @@ class CitaViewModel @Inject constructor(
             enableSubmit = true
         }
     }
+
     var msg = ""
 
     fun validacion(): Boolean {
 
-        val delim = "-"
         var fechaActual = LocalDateTime.now()
-        val fechaElegida = fch.split(delim)
+        val fechaElegida = LocalDateTime.parse(fecha)
 
-        if(fechaElegida[0].toInt() < fechaActual.year.toString().toInt())
-        {
-            msg = "No se pueden agendar citas con fechas menor a la de hoy"
-            return false
-        }else if(fechaElegida[1].toInt() < fechaActual.monthValue.toString().toInt())
-        {
-            msg = "No se pueden agendar citas con fechas menor a la de hoy"
-            return false
-        }else if(fechaElegida[2].toInt() < fechaActual.dayOfMonth.toString().toInt())
-        {
+        if (status == 1 && fechaElegida < fechaActual) {
             msg = "No se pueden agendar citas con fechas menor a la de hoy"
             return false
         }

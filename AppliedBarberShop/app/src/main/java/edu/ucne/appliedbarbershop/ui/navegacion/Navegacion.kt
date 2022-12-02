@@ -24,6 +24,8 @@ import edu.ucne.appliedbarbershop.ui.citas.CitaViewModel
 import edu.ucne.appliedbarbershop.ui.principal.PrincipalScreen
 import edu.ucne.appliedbarbershop.ui.theme.DancingScript
 import edu.ucne.appliedbarbershop.utils.Screen
+import edu.ucne.appliedbarbershop.utils.Validator
+import edu.ucne.appliedbarbershop.utils.validString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -262,7 +264,7 @@ private fun DrawerContent(
     navegacionViewModel: NavegacionViewModel
 ) {
     val activity = (LocalContext.current as? Activity)
-    val nombreCompleto = navegacionViewModel.cliente.nombre.replace("\\s".toRegex(), "") + " " + navegacionViewModel.cliente.apellido.replace("\\s".toRegex(), "")
+    val nombreCompleto = validString(navegacionViewModel.cliente.nombre) + " " + validString(navegacionViewModel.cliente.apellido)
 
     ModalDrawerSheet {
         Spacer(Modifier.height(50.dp))
