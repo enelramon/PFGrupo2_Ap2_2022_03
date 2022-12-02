@@ -7,13 +7,12 @@ namespace ApiBarberShop.Models;
 
 public partial class Cliente
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
     public int ClienteId { get; set; }
 
-    public string Nombre { get; set; } = null!;
+    public string Nombre { get; set; }
 
-    public string Apellido { get; set; } = null!;
+    public string Apellido { get; set; }
 
     public string? Celular { get; set; }
 
@@ -27,5 +26,5 @@ public partial class Cliente
 
     public int Status { get; set; }
 
-    public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
+    //public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
 }

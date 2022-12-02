@@ -11,15 +11,15 @@
       "Type": "resourceGroup",
       "Value": "ApplieBarberShop"
     },
-    "ApiBarberShop.resourceName": {
-      "Name": "ApiBarberShop.resourceName",
-      "Type": null,
-      "Value": "ApiBarberShop"
-    },
     "subscriptionId": {
       "Name": "subscriptionId",
       "Type": "subscription",
       "Value": "aa8dbb75-2b37-4ae3-b90b-50b9236a913f"
+    },
+    "ApiBarberShop.resourceName": {
+      "Name": "ApiBarberShop.resourceName",
+      "Type": null,
+      "Value": "ApiBarberShop"
     },
     "ApiBarberShop.subscriptionId": {
       "Name": "ApiBarberShop.subscriptionId",

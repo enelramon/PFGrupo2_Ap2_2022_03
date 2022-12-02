@@ -34,14 +34,14 @@ public partial class Contexto : DbContext
 
         modelBuilder.Entity<Cita>(entity =>
         {
-            entity.Property(e => e.Fecha).HasColumnType("datetime");
+           entity.Property(e => e.Fecha).HasColumnType("datetime");
             entity.Property(e => e.FechaCreacion).HasColumnType("datetime");
             entity.Property(e => e.FechaModificacion).HasColumnType("datetime");
             entity.Property(e => e.Mensaje)
                 .HasMaxLength(200)
                 .IsFixedLength();
 
-            entity.HasOne(d => d.Barbero).WithMany(p => p.Cita)
+           /* entity.HasOne(d => d.Barbero).WithMany(p => p.Cita)
                 .HasForeignKey(d => d.BarberoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Citas_Barberos");
@@ -54,7 +54,7 @@ public partial class Contexto : DbContext
             entity.HasOne(d => d.Servicio).WithMany(p => p.Cita)
                 .HasForeignKey(d => d.ServicioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Citas_Servicios");
+                .HasConstraintName("FK_Citas_Servicios");*/
         });
 
         modelBuilder.Entity<Cliente>(entity =>

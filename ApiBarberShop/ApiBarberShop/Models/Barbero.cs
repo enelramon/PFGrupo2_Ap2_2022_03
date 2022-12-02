@@ -7,9 +7,18 @@ namespace ApiBarberShop.Models;
 
 public partial class Barbero
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
     public int BarberoId { get; set; }
+
+    public string? Nombre { get; set; }
+
+    public string? Apellido { get; set; }
+
+    public string? Celular { get; set; }
+
+    public DateTime FechaNacimiento { get; set; }
+
+    public string? Imagen { get; set; }
 
     public DateTime FechaCreacion { get; set; }
 
@@ -17,5 +26,5 @@ public partial class Barbero
 
     public int Status { get; set; }
 
-    public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
+    //public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
 }

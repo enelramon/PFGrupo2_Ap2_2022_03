@@ -7,7 +7,6 @@ namespace ApiBarberShop.Models;
 
 public partial class Servicio
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
     public int ServicioId { get; set; }
 
@@ -25,5 +24,5 @@ public partial class Servicio
 
     public int Status { get; set; }
 
-    public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
+    //public virtual ICollection<Cita>? Cita { get; } = new List<Cita>();
 }

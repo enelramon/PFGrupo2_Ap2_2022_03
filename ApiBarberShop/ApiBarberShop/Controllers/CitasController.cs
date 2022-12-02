@@ -44,8 +44,10 @@ namespace ApiBarberShop.Controllers
         [HttpGet("GetClientesId{id}")]
         public IEnumerable<Cita> GetClienteId(int id)
         {
-            var Clientes = _context.Citas.Where(c => c.Cliente.ClienteId == id && c.Status > 0).ToList();
-            return Clientes;
+            // var clientes = (from c in _context.Citas join b in _context.Barberos on c.Status > 0 equals b.Status > 0 select c).Where(c=> c.CitaId == id).ToList();
+            var citas = _context.Citas.Where(c => c.ClienteId == id && c.Status > 0).ToList();
+            return citas;
+
         }
 
         [HttpPut("PutCitas{id}")]

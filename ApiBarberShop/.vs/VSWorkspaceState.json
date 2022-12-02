@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ApiBarberShop",
-    "\\ApiBarberShop\\Models"
+    "\\ApiBarberShop"
   ],
-  "SelectedNode": "\\ApiBarberShop\\Models\\Cliente.cs",
+  "SelectedNode": "\\ApiBarberShop.sln",
   "PreviewInSolutionExplorer": false
 }
