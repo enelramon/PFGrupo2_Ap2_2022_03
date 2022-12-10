@@ -1,0 +1,12 @@
+
+POST 
+Content-Type: text/json
+DataServiceVersion: 2.0;
+
+{
+  "barberoId": 0,
+  "fechaCreacion": "2022-11-19T14:53:12.88Z",
+  "fechaModificacion": "2022-11-19T14:53:12.88Z",
+  "status": 0,
+  "cita": []
+}

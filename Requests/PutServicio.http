@@ -1,0 +1,14 @@
+PUT https://apibarbershop.azurewebsites.net/Servicios/PutServicios3
+Content-Type: application/json
+
+{
+  "servicioId": 3,
+  "nombre": "Sevicio 3",
+  "imagen": "<Imagen, nchar(255),>                                                                                                                                                                                                                                          ",
+  "fechaCreacion": "2022-11-16T18:32:05.587",
+  "fechaModificacion": null,
+  "usuarioCreacionId": 2,
+  "usuarioModificacionId": null,
+  "status": 1,
+  "cita": []
+}

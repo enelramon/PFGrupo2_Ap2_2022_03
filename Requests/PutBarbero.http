@@ -1,0 +1,8 @@
+PUT https://apibarbershop.azurewebsites.net/Barberos/PutBarberos3
+
+{
+  "barberoId": 3,
+  "fechaCreacion": "2022-11-19T15:27:11.697Z",
+  "fechaModificacion": "2022-11-19T15:27:11.697Z",
+  "status": 0
+}

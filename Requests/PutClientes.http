@@ -1,0 +1,16 @@
+
+PUT https://apibarbershop.azurewebsites.net/Clientes/PutClientes4
+Content-Type: application/json
+
+{
+    "clienteId": 4,
+    "nombre": "Felix",
+    "apellido": "Cruz",
+    "celular": null,
+    "fechaNacimiento": null,
+    "imagen": null,
+    "fechaCreacion": "2022-11-16T18:37:40.447",
+    "fechaModificacion": null,
+    "status": 1,
+    "cita": []
+  }

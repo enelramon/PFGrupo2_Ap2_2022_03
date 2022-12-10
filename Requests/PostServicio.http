@@ -1,0 +1,15 @@
+POST https://apibarbershop.azurewebsites.net/Servicios/PostServicios
+Content-Type: application/json
+DataServiceVersion: 2.0;
+
+
+{
+"servicioId": 0,
+  "nombre": "Corte completo",
+  "imagen": "none",
+  "fechaCreacion": "2022-11-19T16:30:54.146Z",
+  "fechaModificacion": "2022-11-19T16:30:54.146Z",
+  "usuarioCreacionId": 6,
+  "usuarioModificacionId": 2,
+  "status": 1
+}
